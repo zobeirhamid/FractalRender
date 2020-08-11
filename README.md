@@ -61,3 +61,9 @@ With all that information we can determine the complex number for each pixel whi
 z = x _ (x1 - x0) / width + x0 + i _ (y \* (y1 - y0) / height + y0)
 
 Now we can use this complex number for the pixel, iterate like 5000x the equations, check if it's converging using the threshold limit EPS which is very small, if it's converging therefore we can color the pixel accordingly. We can also incooperate the rate of converging, therefore creating darker and lighter color values to represent the rate of convergence.
+
+## First Results
+
+![Black & White](./docs/images/BlackWhite.png)
+![Grey](./docs/images/Grey.png)
+![Color](./docs/images/Color.png)

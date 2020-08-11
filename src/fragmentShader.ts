@@ -1,8 +1,7 @@
 export default `
 precision mediump float;
 const int MAX_ITER = 2000;
-uniform int ITERATIONS;
-uniform vec2 offset;
+uniform float ITERATIONS;
 uniform float width;
 uniform float height;
 uniform vec4 boundaries;
@@ -19,43 +18,99 @@ vec3 hsv2rgb(vec3 c) {
   return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-int mandelbrot(vec2 c)
+float mandelbrot(vec2 c)
 {
 	vec2 z = vec2(0, 0);
-	int n = 0;
+	float n = 0.0;
 	for (int i = 0; i < MAX_ITER; i++) {
 		if (length(z) > 2.0) {
 			break;
 		}
 		if (n > ITERATIONS) {
 			break;
-
 		}
 		z = complexMultiplication(z, z) + c;
 		n++;
 	}
-	return n;
+	return float(n);
+}
+
+float optimizedMandelbrot(vec2 c)
+{
+	float n = 0.0;
+	float x2 = 0.0;
+	float y2 = 0.0;
+	float x = 0.0;
+	float y = 0.0;
+	for (int i = 0; i < MAX_ITER; i++) {
+		if (x2 + y2 > 4.0) {
+			break;
+		}
+		if (n > ITERATIONS) {
+			break;
+		}
+
+		y = 2.0 * x * y + c.y;
+		x = x2 - y2 + c.x;
+		x2 = x * x;
+		y2 = y * y;
+
+		n++;
+	}
+
+	return float(n);
+}
+
+float smoothMandelbrot(vec2 c)
+{
+	float n = 0.0;
+	float x2 = 0.0;
+	float y2 = 0.0;
+	float x = 0.0;
+	float y = 0.0;
+	for (int i = 0; i < MAX_ITER; i++) {
+		if (x * x + y * y > pow(2.0, 8.0)) {
+			break;
+		}
+		if (n > ITERATIONS) {
+			break;
+		}
+
+		y = 2.0 * x * y + c.y;
+		x = x2 - y2 + c.x;
+		x2 = x * x;
+		y2 = y * y;
+
+		n++;
+	}
+
+	if (n < ITERATIONS) {
+		return float(n) + 1.0 - log((log(x * x + y * y) / 2.0) / log(2.0)) / log(2.0);
+	}
+
+	return float(n);
 }
 
 void main(void)
 {
 	float x = gl_FragCoord.x;
 	float y = gl_FragCoord.y;
-	vec2 c = vec2(offset.x + boundaries.x + x * (boundaries.y - boundaries.x) / (width), offset.y + boundaries.z + y * (boundaries.w - boundaries.z) / (height));
+	vec2 c = vec2(boundaries.x + x * (boundaries.y - boundaries.x) / (width), boundaries.z + y * (boundaries.w - boundaries.z) / (height));
 
-	int m = mandelbrot(c);
+	float m = smoothMandelbrot(c);
 	// VERSION 1
-	//int color = 1 - m / ITERATIONS;
+	int color = 1 - int(m / ITERATIONS);
+	gl_FragColor = vec4(color, color, color, 1.0);
 
 	// VERSION 2
-	// float color = 1.0 - float(m) / float(ITERATIONS);
-	// gl_FragColor = vec4(color, color, color, 1.0);
+	//float color = 1.0 - float(m) / float(ITERATIONS);
+	//gl_FragColor = vec4(color, color, color, 1.0);
 
 
 	// VERSION 3
-	float hue = float(m) / float(ITERATIONS);
-	float saturation = 1.0;
-	float value = m < ITERATIONS ? 1.0 : 0.0;
-	gl_FragColor = vec4(hsv2rgb(vec3(hue, saturation, value)), 1.0);
+	//float hue = m / ITERATIONS;
+	//float saturation = 1.0;
+	//float value = m < ITERATIONS ? 1.0 : 0.0;
+	//gl_FragColor = vec4(hsv2rgb(vec3(hue, saturation, value)), 1.0);
 }
 `;
