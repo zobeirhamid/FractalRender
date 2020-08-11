@@ -91,16 +91,33 @@ float smoothMandelbrot(vec2 c)
 	return float(n);
 }
 
+float sampling (float x, float y) {
+	vec2 c = vec2(boundaries.x + x * (boundaries.y - boundaries.x) / (width), boundaries.z + y * (boundaries.w - boundaries.z) / (height));
+	return smoothMandelbrot(c);
+}
+
+float superSampling(float x, float y) {
+	const float samplingRate = 1.0;
+
+	float change = 1.0 / (samplingRate + 1.0);
+	float m = 0.0;
+	for (float i = 1.0; i < samplingRate + 1.0; i++) {
+		m = m + sampling(x + i * change, y + i * change);
+	}
+	return m / samplingRate;
+
+}
+
 void main(void)
 {
-	float x = gl_FragCoord.x;
-	float y = gl_FragCoord.y;
-	vec2 c = vec2(boundaries.x + x * (boundaries.y - boundaries.x) / (width), boundaries.z + y * (boundaries.w - boundaries.z) / (height));
+	float x = gl_FragCoord.x - 0.5;
+	float y = gl_FragCoord.y - 0.5;
 
-	float m = optimizedMandelbrot(c);
+	float m = superSampling(x, y);
+
 	// VERSION 1
-	int color = 1 - int(m / ITERATIONS);
-	gl_FragColor = vec4(color, color, color, 1.0);
+	//int color = 1 - int(m / ITERATIONS);
+	//gl_FragColor = vec4(color, color, color, 1.0);
 
 	// VERSION 2
 	//float color = 1.0 - float(m) / float(ITERATIONS);
@@ -108,9 +125,9 @@ void main(void)
 
 
 	// VERSION 3
-	//float hue = m / ITERATIONS;
-	//float saturation = 1.0;
-	//float value = m < ITERATIONS ? 1.0 : 0.0;
-	//gl_FragColor = vec4(hsv2rgb(vec3(hue, saturation, value)), 1.0);
+	float hue = m / ITERATIONS;
+	float saturation = 1.0;
+	float value = m < ITERATIONS ? 1.0 : 0.0;
+	gl_FragColor = vec4(hsv2rgb(vec3(hue, saturation, value)), 1.0);
 }
 `;
