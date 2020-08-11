@@ -4,8 +4,8 @@ import initShaderProgram from "./initShaderProgram";
 
 const canvas = <HTMLCanvasElement>document.getElementById("webgl");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 600;
+canvas.height = 400;
 
 const gl = <WebGLRenderingContext>canvas.getContext("webgl");
 
