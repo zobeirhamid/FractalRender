@@ -32,11 +32,22 @@ const verticesBufferObject = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, verticesBufferObject);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
-let zoomed = false;
+let width = canvas.width;
+let height = (400 / 600) * canvas.width;
+
+if (height > canvas.height) {
+  width = (600 / 400) * canvas.height;
+  height = canvas.height;
+}
 
 const uniformLocations = {
   ITERATIONS: 50,
-  boundaries: [-2, 1, -1, 1],
+  boundaries: [
+    -2 + (-(canvas.width - width) / 2) * (3 / width),
+    1 - (-(canvas.width - width) / 2) * (3 / width),
+    -1 + (-(canvas.height - height) / 2) * (2 / height),
+    1 - (-(canvas.height - height) / 2) * (2 / height),
+  ],
   width: canvas.width,
   height: canvas.height,
 };
@@ -75,45 +86,26 @@ function paint() {
 window.addEventListener("resize", resize);
 
 function resize() {
-  if (!zoomed) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let width = canvas.width;
-    let height = (400 / 600) * canvas.width;
+  let width = window.innerWidth - canvas.width;
+  let height = window.innerHeight - canvas.height;
 
-    if (height > canvas.height) {
-      width = (600 / 400) * canvas.height;
-      height = canvas.height;
-    }
+  const xLength = Math.abs(
+    uniformLocations.boundaries[0] - uniformLocations.boundaries[1]
+  );
 
-    uniformLocations.boundaries = [
-      -2 + (-(canvas.width - width) / 2) * (3 / width),
-      1 - (-(canvas.width - width) / 2) * (3 / width),
-      -1 + (-(canvas.height - height) / 2) * (2 / height),
-      1 - (-(canvas.height - height) / 2) * (2 / height),
-    ];
-  } else {
-    let width = window.innerWidth - canvas.width;
-    let height = window.innerHeight - canvas.height;
+  const yLength = Math.abs(
+    uniformLocations.boundaries[2] - uniformLocations.boundaries[3]
+  );
 
-    const xLength = Math.abs(
-      uniformLocations.boundaries[0] - uniformLocations.boundaries[1]
-    );
+  uniformLocations.boundaries = [
+    uniformLocations.boundaries[0] - ((width / 2) * xLength) / canvas.width,
+    uniformLocations.boundaries[1] + ((width / 2) * xLength) / canvas.width,
+    uniformLocations.boundaries[2] - ((height / 2) * yLength) / canvas.height,
+    uniformLocations.boundaries[3] + ((height / 2) * yLength) / canvas.height,
+  ];
 
-    const yLength = Math.abs(
-      uniformLocations.boundaries[2] - uniformLocations.boundaries[3]
-    );
-
-    uniformLocations.boundaries = [
-      uniformLocations.boundaries[0] - ((width / 2) * xLength) / canvas.width,
-      uniformLocations.boundaries[1] + ((width / 2) * xLength) / canvas.width,
-      uniformLocations.boundaries[2] - ((height / 2) * yLength) / canvas.height,
-      uniformLocations.boundaries[3] + ((height / 2) * yLength) / canvas.height,
-    ];
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
   uniformLocations.width = canvas.width;
   uniformLocations.height = canvas.height;
 
@@ -141,8 +133,6 @@ function zoom(event: MouseWheelEvent) {
     uniformLocations.boundaries[2] + (1 - yw) * yLength * 0.1,
     uniformLocations.boundaries[3] - yw * yLength * 0.1,
   ];
-
-  zoomed = true;
 
   paint();
 }
