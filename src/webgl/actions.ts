@@ -22,22 +22,33 @@ export function resize(state: any) {
   };
 }
 
-export function zoom(state: any, event: MouseWheelEvent) {
+export function zoom(
+  state: any,
+  event: MouseWheelEvent,
+  canvas: HTMLCanvasElement
+) {
   event.preventDefault();
 
   const zoomFactor = event.deltaY < 0 ? 0.05 : -0.05;
 
-  const xw = event.clientX / state.width;
-  const yw = event.clientY / state.height;
+  const xw = (event.clientX - canvas.offsetLeft) / state.width;
+  const yw = (event.clientY - canvas.offsetTop) / state.height;
 
-  return {
-    boundaries: [
-      state.boundaries[0] + xw * xLength(state) * zoomFactor,
-      state.boundaries[1] - (1 - xw) * xLength(state) * zoomFactor,
-      state.boundaries[2] + (1 - yw) * yLength(state) * zoomFactor,
-      state.boundaries[3] - yw * yLength(state) * zoomFactor,
-    ],
-  };
+  if (
+    event.clientX > canvas.offsetLeft &&
+    event.clientX < canvas.offsetLeft + state.width &&
+    event.clientY > canvas.offsetTop &&
+    event.clientY < canvas.offsetTop + state.height
+  ) {
+    return {
+      boundaries: [
+        state.boundaries[0] + xw * xLength(state) * zoomFactor,
+        state.boundaries[1] - (1 - xw) * xLength(state) * zoomFactor,
+        state.boundaries[2] + (1 - yw) * yLength(state) * zoomFactor,
+        state.boundaries[3] - yw * yLength(state) * zoomFactor,
+      ],
+    };
+  }
 }
 
 export function dragging() {

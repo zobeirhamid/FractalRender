@@ -1,4 +1,4 @@
-function createStore() {
+function createStore(initialState?: any) {
   let width = window.innerWidth;
   let height = (400 / 600) * width;
 
@@ -18,6 +18,7 @@ function createStore() {
     ],
     width: window.innerWidth,
     height: window.innerHeight,
+    ...initialState,
   };
 
   const listeners: Array<(state: any) => {}> = [];
@@ -44,6 +45,4 @@ function createStore() {
   return { getState, updateState, listen, fire };
 }
 
-const store = createStore();
-
-export default store;
+export default createStore;
