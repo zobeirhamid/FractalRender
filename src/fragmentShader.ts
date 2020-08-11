@@ -97,7 +97,7 @@ void main(void)
 	float y = gl_FragCoord.y;
 	vec2 c = vec2(boundaries.x + x * (boundaries.y - boundaries.x) / (width), boundaries.z + y * (boundaries.w - boundaries.z) / (height));
 
-	float m = smoothMandelbrot(c);
+	float m = optimizedMandelbrot(c);
 	// VERSION 1
 	int color = 1 - int(m / ITERATIONS);
 	gl_FragColor = vec4(color, color, color, 1.0);

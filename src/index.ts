@@ -5,6 +5,9 @@ import initShaderProgram from "./initShaderProgram";
 const canvas = <HTMLCanvasElement>document.getElementById("webgl");
 
 canvas.onwheel = zoom;
+canvas.onmousedown = startDrag;
+canvas.onmouseup = endDrag;
+canvas.onmousemove = move;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -41,7 +44,7 @@ if (height > canvas.height) {
 }
 
 const uniformLocations = {
-  ITERATIONS: 50,
+  ITERATIONS: 100,
   boundaries: [
     -2 + (-(canvas.width - width) / 2) * (3 / width),
     1 - (-(canvas.width - width) / 2) * (3 / width),
@@ -75,7 +78,9 @@ function paint() {
     gl.getUniformLocation(shaderProgram, "height"),
     uniformLocations.height
   );
-  console.log(uniformLocations.boundaries);
+
+  //console.log(uniformLocations.boundaries);
+
   gl.uniform4fv(
     gl.getUniformLocation(shaderProgram, "boundaries"),
     uniformLocations.boundaries
@@ -116,6 +121,8 @@ function resize() {
 function zoom(event: MouseWheelEvent) {
   event.preventDefault();
 
+  const zoomFactor = event.deltaY < 0 ? 0.05 : -0.05;
+
   const xLength = Math.abs(
     uniformLocations.boundaries[0] - uniformLocations.boundaries[1]
   );
@@ -128,13 +135,59 @@ function zoom(event: MouseWheelEvent) {
   const yw = event.clientY / uniformLocations.height;
 
   uniformLocations.boundaries = [
-    uniformLocations.boundaries[0] + xw * xLength * 0.1,
-    uniformLocations.boundaries[1] - (1 - xw) * xLength * 0.1,
-    uniformLocations.boundaries[2] + (1 - yw) * yLength * 0.1,
-    uniformLocations.boundaries[3] - yw * yLength * 0.1,
+    uniformLocations.boundaries[0] + xw * xLength * zoomFactor,
+    uniformLocations.boundaries[1] - (1 - xw) * xLength * zoomFactor,
+    uniformLocations.boundaries[2] + (1 - yw) * yLength * zoomFactor,
+    uniformLocations.boundaries[3] - yw * yLength * zoomFactor,
   ];
 
   paint();
+}
+
+const DRAGGING = 0;
+const NO_DRAGGING = 1;
+
+const dragger = {
+  mode: NO_DRAGGING,
+  previousPosition: [0, 0],
+};
+
+function startDrag(event: MouseEvent) {
+  dragger.mode = DRAGGING;
+  dragger.previousPosition = [event.clientX, event.clientY];
+}
+
+function endDrag(event: MouseEvent) {
+  dragger.mode = NO_DRAGGING;
+  dragger.previousPosition = [event.clientX, event.clientY];
+}
+
+function move(event: MouseEvent) {
+  if (dragger.mode == DRAGGING) {
+    const position = [event.clientX, event.clientY];
+    const xLength = Math.abs(
+      uniformLocations.boundaries[0] - uniformLocations.boundaries[1]
+    );
+
+    const yLength = Math.abs(
+      uniformLocations.boundaries[2] - uniformLocations.boundaries[3]
+    );
+
+    const dx =
+      ((dragger.previousPosition[0] - position[0]) * xLength) / canvas.width;
+    const dy =
+      ((dragger.previousPosition[1] - position[1]) * yLength) / canvas.height;
+
+    uniformLocations.boundaries = [
+      uniformLocations.boundaries[0] + dx,
+      uniformLocations.boundaries[1] + dx,
+      uniformLocations.boundaries[2] - dy,
+      uniformLocations.boundaries[3] - dy,
+    ];
+
+    dragger.previousPosition = position;
+    paint();
+  }
 }
 
 resize();
