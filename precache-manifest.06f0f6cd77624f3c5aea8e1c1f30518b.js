@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8fa125d35677a63e613eb2711b300a7e",
+    "revision": "23468e0ad7808f987d36b29fd8c11a71",
     "url": "/FractalRender/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/FractalRender/static/css/2.460e1820.chunk.css"
   },
   {
-    "revision": "9e5afd964e4d1ad676e9",
+    "revision": "7ba68dd586467b701f85",
     "url": "/FractalRender/static/css/main.e5873c1e.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/FractalRender/static/js/2.1b57051c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9e5afd964e4d1ad676e9",
-    "url": "/FractalRender/static/js/main.c68e7726.chunk.js"
+    "revision": "7ba68dd586467b701f85",
+    "url": "/FractalRender/static/js/main.04c472e1.chunk.js"
   },
   {
     "revision": "82004fe93faebe94d452",
