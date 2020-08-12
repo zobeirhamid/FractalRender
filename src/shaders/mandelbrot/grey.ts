@@ -94,28 +94,15 @@ float sampling (float x, float y) {
 }
 
 float superSampling(float x, float y) {
-	float change = 1.0 / 4.0;
-	float m = iterations;
-
-	for (int i = 0; i < 64; i++){
-		if (i > 3) {
+	float change = 1.0 / (float(samplingRate) + 1.0);
+	float m = 0.0;
+	for (int i = 1; i < MAX_SAMPLING_RATE + 1; i++) {
+		if (i > (samplingRate + 1)) {
 			break;
 		}
-
-		for (int j = 0; j < 64; j++){
-			if (j > 3) {
-				break;
-			}
-			float sample = sampling(x + float(i) * change, y + float(j) * change);
-
-			if (sample < m){
-				m = sample;
-			}
-
-		}
+		m = m + sampling(x + float(i) * change, y + float(i) * change);
 	}
-	return m;
-
+	return m / float(samplingRate);
 }
 
 vec3 greyRender(float m) {
