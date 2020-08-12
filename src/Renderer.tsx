@@ -94,6 +94,15 @@ class Renderer extends React.Component<RendererProps> {
     }
   }
 
+  animateRadius(limit = 2) {
+    const { store } = this.props;
+    const { radius } = store.getState();
+    if (radius < limit) {
+      store.updateState({ radius: radius + 0.01 });
+      requestAnimationFrame(() => this.animateRadius(limit));
+    }
+  }
+
   render() {
     return <canvas id="webgl"></canvas>;
   }

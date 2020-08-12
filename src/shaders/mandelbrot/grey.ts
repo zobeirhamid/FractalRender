@@ -7,6 +7,7 @@ uniform int samplingRate;
 uniform float width;
 uniform float height;
 uniform vec4 boundaries;
+uniform float radius;
 
 vec2 complexMultiplication(vec2 z1, vec2 z2)
 {
@@ -18,7 +19,7 @@ float mandelbrot(vec2 c)
 	vec2 z = vec2(0, 0);
 	float n = 0.0;
 	for (int i = 0; i < MAX_ITER; i++) {
-		if (length(z) > 2.0) {
+		if (length(z) > radius) {
 			break;
 		}
 		if (n > iterations) {
@@ -37,8 +38,9 @@ float optimizedMandelbrot(vec2 c)
 	float y2 = 0.0;
 	float x = 0.0;
 	float y = 0.0;
+	float bound = radius * radius;
 	for (int i = 0; i < MAX_ITER; i++) {
-		if (x2 + y2 > 4.0) {
+		if (x2 + y2 > bound) {
 			break;
 		}
 		if (n > iterations) {

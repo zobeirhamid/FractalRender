@@ -8,6 +8,7 @@ type SettingsProps = {
   samplingRate: number;
   renderer: any;
   activeShader: number;
+  radius: number;
   shaders: Array<{
     name: string;
     vertexShader: WebGLShader;
@@ -37,6 +38,7 @@ class Settings extends React.Component<SettingsProps> {
       shaders,
       renderer,
       activeShader,
+      radius,
     } = this.props;
     return (
       <Drawer
@@ -65,6 +67,21 @@ class Settings extends React.Component<SettingsProps> {
               value={iterations}
               onValueChange={(value) => {
                 store.updateState({ iterations: value });
+              }}
+            />
+          </Label>
+          <Label>
+            <strong>Radius:</strong>
+            <NumericInput
+              disabled={activeShader != 2}
+              className="bp3-dark"
+              fill={true}
+              min={0}
+              max={5}
+              stepSize={0.1}
+              value={radius}
+              onValueChange={(value) => {
+                store.updateState({ radius: value });
               }}
             />
           </Label>
@@ -114,6 +131,18 @@ class Settings extends React.Component<SettingsProps> {
               }}
             >
               Animate Iteration
+            </Button>
+            <Button
+              style={{ marginBottom: 15 }}
+              icon="function"
+              fill={true}
+              disabled={activeShader != 2}
+              onClick={() => {
+                store.updateState({ radius: 0 });
+                renderer.current.animateRadius();
+              }}
+            >
+              Animate Radius
             </Button>
             <Button
               style={{ marginBottom: 15 }}
@@ -184,6 +213,7 @@ export default function (props: any) {
       samplingRate={state.samplingRate}
       shaders={state.shaders}
       activeShader={state.activeShader}
+      radius={state.radius}
     />
   );
 }

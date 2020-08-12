@@ -16,6 +16,7 @@ function createStore(initialState?: any) {
   let state = {
     iterations: 0,
     samplingRate: 1,
+    radius: 2,
     boundaries: [
       -2 - (offset[0] / 2) * (3 / width),
       1 + (offset[0] / 2) * (3 / width),
