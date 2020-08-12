@@ -42,6 +42,7 @@ function createStore(initialState?: any) {
       },
     ],
     shaderProgram: null,
+    activeShader: 0,
     ...initialState,
   };
 

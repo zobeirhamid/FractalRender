@@ -3,7 +3,7 @@ precision mediump float;
 const int MAX_ITER = 65535;
 const int MAX_SAMPLING_RATE = 4096;
 uniform float iterations;
-uniform float samplingRate;
+uniform int samplingRate;
 uniform float width;
 uniform float height;
 uniform vec4 boundaries;
@@ -99,16 +99,15 @@ float sampling (float x, float y) {
 }
 
 float superSampling(float x, float y) {
-	float change = 1.0 / (samplingRate + 1.0);
+	float change = 1.0 / (float(samplingRate) + 1.0);
 	float m = 0.0;
 	for (int i = 1; i < MAX_SAMPLING_RATE + 1; i++) {
-		if (float(i) > samplingRate + 1.0) {
+		if (i > (samplingRate + 1)) {
 			break;
 		}
 		m = m + sampling(x + float(i) * change, y + float(i) * change);
 	}
-	return m / samplingRate;
-
+	return m / float(samplingRate);
 }
 
 vec3 colorRender(float m) {

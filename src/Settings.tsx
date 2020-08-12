@@ -7,6 +7,7 @@ type SettingsProps = {
   iterations: number;
   samplingRate: number;
   renderer: any;
+  activeShader: number;
   shaders: Array<{
     name: string;
     vertexShader: WebGLShader;
@@ -29,7 +30,14 @@ class Settings extends React.Component<SettingsProps> {
 
   render() {
     const { isOpen } = this.state;
-    const { store, iterations, samplingRate, shaders, renderer } = this.props;
+    const {
+      store,
+      iterations,
+      samplingRate,
+      shaders,
+      renderer,
+      activeShader,
+    } = this.props;
     return (
       <Drawer
         size={220}
@@ -66,7 +74,7 @@ class Settings extends React.Component<SettingsProps> {
               className="bp3-dark"
               fill={true}
               min={1}
-              max={8}
+              max={64}
               value={samplingRate}
               onValueChange={(value) => {
                 store.updateState({ samplingRate: value });
@@ -82,6 +90,7 @@ class Settings extends React.Component<SettingsProps> {
               onChange={(event) => {
                 renderer.current.setShaderProgram(event.currentTarget.value);
               }}
+              value={activeShader}
             >
               {shaders.map((shader, index) => {
                 return (
@@ -174,6 +183,7 @@ export default function (props: any) {
       iterations={state.iterations}
       samplingRate={state.samplingRate}
       shaders={state.shaders}
+      activeShader={state.activeShader}
     />
   );
 }

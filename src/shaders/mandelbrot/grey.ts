@@ -3,7 +3,7 @@ precision mediump float;
 const int MAX_ITER = 65535;
 const int MAX_SAMPLING_RATE = 4096;
 uniform float iterations;
-uniform float samplingRate;
+uniform int samplingRate;
 uniform float width;
 uniform float height;
 uniform vec4 boundaries;
@@ -92,15 +92,27 @@ float sampling (float x, float y) {
 }
 
 float superSampling(float x, float y) {
-	float change = 1.0 / (samplingRate + 1.0);
-	float m = 0.0;
-	for (int i = 1; i < MAX_SAMPLING_RATE + 1; i++) {
-		if (float(i) > samplingRate + 1.0) {
+	float change = 1.0 / 4.0;
+	float m = iterations;
+
+	for (int i = 0; i < 64; i++){
+		if (i > 3) {
 			break;
 		}
-		m = m + sampling(x + float(i) * change, y + float(i) * change);
+
+		for (int j = 0; j < 64; j++){
+			if (j > 3) {
+				break;
+			}
+			float sample = sampling(x + float(i) * change, y + float(j) * change);
+
+			if (sample < m){
+				m = sample;
+			}
+
+		}
 	}
-	return m / samplingRate;
+	return m;
 
 }
 

@@ -73,7 +73,7 @@ class Renderer extends React.Component<RendererProps> {
     );
     if (shaderProgram !== null) {
       setupVertices(this.gl, shaderProgram);
-      store.updateState({ shaderProgram });
+      store.updateState({ shaderProgram, activeShader: program });
     }
   }
 

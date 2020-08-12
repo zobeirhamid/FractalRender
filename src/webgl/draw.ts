@@ -13,7 +13,7 @@ function draw(gl: WebGLRenderingContext, state: any) {
     gl.getUniformLocation(shaderProgram, "iterations"),
     state.iterations
   );
-  gl.uniform1f(
+  gl.uniform1i(
     gl.getUniformLocation(shaderProgram, "samplingRate"),
     state.samplingRate
   );
