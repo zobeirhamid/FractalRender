@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/FractalRender/static/css/main.e5873c1e.chunk.css",
-    "main.js": "/FractalRender/static/js/main.1d15ec86.chunk.js",
-    "main.js.map": "/FractalRender/static/js/main.1d15ec86.chunk.js.map",
+    "main.js": "/FractalRender/static/js/main.f5de5df9.chunk.js",
+    "main.js.map": "/FractalRender/static/js/main.f5de5df9.chunk.js.map",
     "runtime-main.js": "/FractalRender/static/js/runtime-main.dc945ae5.js",
     "runtime-main.js.map": "/FractalRender/static/js/runtime-main.dc945ae5.js.map",
     "static/css/2.460e1820.chunk.css": "/FractalRender/static/css/2.460e1820.chunk.css",
     "static/js/2.7a145728.chunk.js": "/FractalRender/static/js/2.7a145728.chunk.js",
     "static/js/2.7a145728.chunk.js.map": "/FractalRender/static/js/2.7a145728.chunk.js.map",
     "index.html": "/FractalRender/index.html",
-    "precache-manifest.2ca4970a436631af6ccbe152c40ae823.js": "/FractalRender/precache-manifest.2ca4970a436631af6ccbe152c40ae823.js",
+    "precache-manifest.f2852f9c692a928c289fcf2b07753170.js": "/FractalRender/precache-manifest.f2852f9c692a928c289fcf2b07753170.js",
     "service-worker.js": "/FractalRender/service-worker.js",
     "static/css/2.460e1820.chunk.css.map": "/FractalRender/static/css/2.460e1820.chunk.css.map",
     "static/css/main.e5873c1e.chunk.css.map": "/FractalRender/static/css/main.e5873c1e.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.460e1820.chunk.css",
     "static/js/2.7a145728.chunk.js",
     "static/css/main.e5873c1e.chunk.css",
-    "static/js/main.1d15ec86.chunk.js"
+    "static/js/main.f5de5df9.chunk.js"
   ]
 }
