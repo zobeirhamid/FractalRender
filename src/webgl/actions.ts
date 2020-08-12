@@ -22,6 +22,34 @@ export function resize(state: any) {
   };
 }
 
+export function centerZoom(state: any, direction: number) {
+  return manualZoom(
+    state,
+    window.innerWidth / 2,
+    window.innerHeight / 2,
+    direction
+  );
+}
+
+export function manualZoom(
+  state: any,
+  x: number,
+  y: number,
+  direction: number
+) {
+  const zoomFactor = direction < 0 ? 0.05 : -0.05;
+  const xw = x / state.width;
+  const yw = y / state.height;
+  return {
+    boundaries: [
+      state.boundaries[0] + xw * xLength(state) * zoomFactor,
+      state.boundaries[1] - (1 - xw) * xLength(state) * zoomFactor,
+      state.boundaries[2] + (1 - yw) * yLength(state) * zoomFactor,
+      state.boundaries[3] - yw * yLength(state) * zoomFactor,
+    ],
+  };
+}
+
 export function zoom(
   state: any,
   event: MouseWheelEvent,
@@ -29,25 +57,18 @@ export function zoom(
 ) {
   event.preventDefault();
 
-  const zoomFactor = event.deltaY < 0 ? 0.05 : -0.05;
-
-  const xw = (event.clientX - canvas.offsetLeft) / state.width;
-  const yw = (event.clientY - canvas.offsetTop) / state.height;
-
   if (
     event.clientX > canvas.offsetLeft &&
     event.clientX < canvas.offsetLeft + state.width &&
     event.clientY > canvas.offsetTop &&
     event.clientY < canvas.offsetTop + state.height
   ) {
-    return {
-      boundaries: [
-        state.boundaries[0] + xw * xLength(state) * zoomFactor,
-        state.boundaries[1] - (1 - xw) * xLength(state) * zoomFactor,
-        state.boundaries[2] + (1 - yw) * yLength(state) * zoomFactor,
-        state.boundaries[3] - yw * yLength(state) * zoomFactor,
-      ],
-    };
+    return manualZoom(
+      state,
+      event.clientX - canvas.offsetLeft,
+      event.clientY - canvas.offsetTop,
+      event.deltaY
+    );
   }
 }
 
@@ -70,7 +91,7 @@ export function dragging() {
     dragger.previousPosition = [event.clientX, event.clientY];
   }
   function move(state: any, event: MouseEvent) {
-    if (dragger.mode == DRAGGING) {
+    if (dragger.mode === DRAGGING) {
       const position = [event.clientX, event.clientY];
 
       const dx =
@@ -92,5 +113,10 @@ export function dragging() {
     }
   }
 
-  return { startDrag, endDrag, move };
+  return {
+    startDrag,
+    endDrag,
+    move,
+    isDragging: () => dragger.mode === DRAGGING,
+  };
 }

@@ -1,6 +1,5 @@
 function setupVertices(gl: WebGLRenderingContext, shaderProgram: WebGLProgram) {
   gl.useProgram(shaderProgram);
-
   const vertices = [
     -1.0,
     -1.0,

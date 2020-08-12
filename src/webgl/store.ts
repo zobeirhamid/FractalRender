@@ -1,3 +1,8 @@
+import vertexShader from "../shaders/mandelbrot/vertexShader";
+import grey from "../shaders/mandelbrot/grey";
+import bw from "../shaders/mandelbrot/bw";
+import color from "../shaders/mandelbrot/color";
+
 function createStore(initialState?: any) {
   let width = window.innerWidth;
   let height = (400 / 600) * width;
@@ -9,7 +14,8 @@ function createStore(initialState?: any) {
   const offset = [window.innerWidth - width, window.innerHeight - height];
 
   let state = {
-    ITERATIONS: 100,
+    iterations: 0,
+    samplingRate: 1,
     boundaries: [
       -2 - (offset[0] / 2) * (3 / width),
       1 + (offset[0] / 2) * (3 / width),
@@ -18,6 +24,24 @@ function createStore(initialState?: any) {
     ],
     width: window.innerWidth,
     height: window.innerHeight,
+    shaders: [
+      {
+        name: "Color",
+        vertexShader,
+        fragmentShader: color,
+      },
+      {
+        name: "Grey",
+        vertexShader,
+        fragmentShader: grey,
+      },
+      {
+        name: "Black & White",
+        vertexShader,
+        fragmentShader: bw,
+      },
+    ],
+    shaderProgram: null,
     ...initialState,
   };
 
@@ -38,8 +62,10 @@ function createStore(initialState?: any) {
   }
 
   function updateState(newState: any) {
-    state = { ...state, ...newState };
-    fire();
+    if (newState) {
+      state = { ...state, ...newState };
+      fire();
+    }
   }
 
   return { getState, updateState, listen, fire };

@@ -1,29 +1,46 @@
 {
+  "homepage": "http://zobeirhamid.github.io/FractalRender",
   "name": "fractalrender",
-  "version": "1.0.0",
-  "description": "A WebGL Renderer for Fractal Equations.",
+  "version": "0.1.0",
   "private": true,
-  "directories": {
-    "doc": "docs"
+  "dependencies": {
+    "@blueprintjs/core": "^3.31.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.2",
+    "typescript": "~3.7.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zobeirhamid/FractalRender.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "author": "Zobeir Hamid",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zobeirhamid/FractalRender/issues"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
-  "homepage": "https://github.com/zobeirhamid/FractalRender#readme",
   "devDependencies": {
-    "ts-loader": "^8.0.2",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "gh-pages": "^3.1.0"
   }
 }

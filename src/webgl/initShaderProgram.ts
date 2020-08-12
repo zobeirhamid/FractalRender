@@ -2,7 +2,7 @@ function initShaderProgram(
   gl: WebGLRenderingContext,
   vertexShaderSource: string,
   fragmentShaderSource: string
-): WebGLProgram {
+): WebGLProgram | null {
   const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
   const fragmentShader = loadShader(
     gl,
@@ -10,42 +10,52 @@ function initShaderProgram(
     fragmentShaderSource
   );
   const shaderProgram = gl.createProgram();
-  gl.attachShader(shaderProgram, vertexShader);
-  gl.attachShader(shaderProgram, fragmentShader);
-  gl.linkProgram(shaderProgram);
-  if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-    console.error(
-      "Error linking the program: " + gl.getProgramInfoLog(shaderProgram)
-    );
-    return null;
-  }
+  if (
+    shaderProgram !== null &&
+    vertexShader !== null &&
+    fragmentShader !== null
+  ) {
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      console.error(
+        "Error linking the program: " + gl.getProgramInfoLog(shaderProgram)
+      );
+      return null;
+    }
 
-  gl.validateProgram(shaderProgram);
-  if (!gl.getProgramParameter(shaderProgram, gl.VALIDATE_STATUS)) {
-    console.error(
-      "Error validating the program: " + gl.getProgramInfoLog(shaderProgram)
-    );
-    return null;
+    gl.validateProgram(shaderProgram);
+    if (!gl.getProgramParameter(shaderProgram, gl.VALIDATE_STATUS)) {
+      console.error(
+        "Error validating the program: " + gl.getProgramInfoLog(shaderProgram)
+      );
+      return null;
+    }
+    return shaderProgram;
   }
-  return shaderProgram;
+  return null;
 
   function loadShader(
     gl: WebGLRenderingContext,
     type: number,
     source: string
-  ): WebGLShader {
+  ): WebGLShader | null {
     const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
+    if (shader !== null) {
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
 
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error(
-        "Error compiling the shader: " + gl.getShaderInfoLog(shader)
-      );
-      gl.deleteShader(shader);
-      return null;
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(
+          "Error compiling the shader: " + gl.getShaderInfoLog(shader)
+        );
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
     }
-    return shader;
+    return null;
   }
 }
 

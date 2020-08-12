@@ -1,9 +1,5 @@
-function draw(
-  gl: WebGLRenderingContext,
-  shaderProgram: WebGLProgram,
-  state: any
-) {
-  gl.useProgram(shaderProgram);
+function draw(gl: WebGLRenderingContext, state: any) {
+  const shaderProgram = state.shaderProgram as WebGLProgram;
   gl.vertexAttribPointer(
     0,
     3,
@@ -14,8 +10,12 @@ function draw(
   );
   gl.enableVertexAttribArray(0);
   gl.uniform1f(
-    gl.getUniformLocation(shaderProgram, "ITERATIONS"),
-    state.ITERATIONS
+    gl.getUniformLocation(shaderProgram, "iterations"),
+    state.iterations
+  );
+  gl.uniform1f(
+    gl.getUniformLocation(shaderProgram, "samplingRate"),
+    state.samplingRate
   );
   gl.uniform1f(gl.getUniformLocation(shaderProgram, "width"), state.width);
   gl.uniform1f(gl.getUniformLocation(shaderProgram, "height"), state.height);
