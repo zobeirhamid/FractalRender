@@ -1,8 +1,3 @@
-import vertexShader from "../shaders/mandelbrot/vertexShader";
-import grey from "../shaders/mandelbrot/grey";
-import bw from "../shaders/mandelbrot/bw";
-import color from "../shaders/mandelbrot/color";
-
 function createStore(initialState?: any) {
   let width = window.innerWidth;
   let height = (400 / 600) * width;
@@ -25,25 +20,10 @@ function createStore(initialState?: any) {
     ],
     width: window.innerWidth,
     height: window.innerHeight,
-    shaders: [
-      {
-        name: "Color",
-        vertexShader,
-        fragmentShader: color,
-      },
-      {
-        name: "Grey",
-        vertexShader,
-        fragmentShader: grey,
-      },
-      {
-        name: "Black & White",
-        vertexShader,
-        fragmentShader: bw,
-      },
-    ],
-    shaderProgram: null,
-    activeShader: 0,
+    mode: 0,
+    modes: ["Color", "Grey", "Black & White"],
+    smooth: true,
+    interpolation: true,
     ...initialState,
   };
 

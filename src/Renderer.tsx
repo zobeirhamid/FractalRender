@@ -3,6 +3,8 @@ import initShaderProgram from "./webgl/initShaderProgram";
 import { zoom, dragging, resize, centerZoom } from "./webgl/actions";
 import draw from "./webgl/draw";
 import setupVertices from "./webgl/setupVertices";
+import vertexShader from "./shaders/mandelbrot/vertexShader";
+import fragmentShader from "./shaders/mandelbrot/fragmentShader";
 
 type RendererProps = {
   store: any;
@@ -18,63 +20,50 @@ class Renderer extends React.Component<RendererProps> {
     if (canvas !== null) {
       canvas.width = store.getState().width;
       canvas.height = store.getState().height;
-      this.gl = canvas.getContext("webgl") as WebGLRenderingContext;
-      if (!this.gl)
-        this.gl = canvas.getContext(
-          "experimental-webgl"
-        ) as WebGLRenderingContext;
-      if (!this.gl) alert("Your browser does not support WebGL.");
+      let gl = canvas.getContext("webgl") as WebGLRenderingContext;
+      if (!gl)
+        gl = canvas.getContext("experimental-webgl") as WebGLRenderingContext;
+      if (!gl) alert("Your browser does not support WebGL.");
 
-      store.listen(() => {
-        if (store.getState().shaderProgram !== null) {
-          this.gl.useProgram(store.getState().shaderProgram);
-          draw(this.gl, store.getState());
-        }
-      });
+      const shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader);
+      if (shaderProgram !== null) {
+        setupVertices(gl, shaderProgram);
 
-      this.setShaderProgram(0);
+        store.listen(() => {
+          gl.useProgram(shaderProgram);
+          draw(gl, shaderProgram, store.getState());
+        });
 
-      window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        store.updateState(resize(store.getState()));
-        this.gl.viewport(0, 0, canvas.width, canvas.height);
-      });
+        window.addEventListener("resize", () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          store.updateState(resize(store.getState()));
+        });
 
-      canvas.onwheel = (event) => {
-        store.updateState(zoom(store.getState(), event, canvas));
-      };
+        canvas.onwheel = (event) => {
+          store.updateState(zoom(store.getState(), event, canvas));
+        };
 
-      const dragger = dragging();
-      canvas.onmousedown = (event) => {
-        dragger.startDrag(event);
-      };
+        const dragger = dragging();
+        canvas.onmousedown = (event) => {
+          dragger.startDrag(event);
+        };
 
-      canvas.onmouseup = (event) => {
-        dragger.endDrag(event);
-      };
+        canvas.onmouseup = (event) => {
+          dragger.endDrag(event);
+        };
 
-      canvas.onmousemove = (event) => {
-        if (dragger.isDragging()) {
-          store.updateState(dragger.move(store.getState(), event));
-        }
-      };
+        canvas.onmousemove = (event) => {
+          if (dragger.isDragging()) {
+            store.updateState(dragger.move(store.getState(), event));
+          }
+        };
+
+        this.animateIteration();
+      }
     }
-    this.animateIteration();
     //this.animateZoom();
-  }
-
-  setShaderProgram(program = 0) {
-    const store = this.props.store;
-    const shaderProgram = initShaderProgram(
-      this.gl,
-      store.getState().shaders[program].vertexShader,
-      store.getState().shaders[program].fragmentShader
-    );
-    if (shaderProgram !== null) {
-      setupVertices(this.gl, shaderProgram);
-      store.updateState({ shaderProgram, activeShader: program });
-    }
   }
 
   animateZoom(direction = -1, times = 0) {

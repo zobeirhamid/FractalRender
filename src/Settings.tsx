@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, NumericInput, Label, Button } from "@blueprintjs/core";
+import {
+  Drawer,
+  NumericInput,
+  Label,
+  Button,
+  Checkbox,
+} from "@blueprintjs/core";
 import { centerZoom } from "./webgl/actions";
 
 type SettingsProps = {
@@ -7,13 +13,11 @@ type SettingsProps = {
   iterations: number;
   samplingRate: number;
   renderer: any;
-  activeShader: number;
+  activeMode: number;
+  smooth: boolean;
+  interpolation: boolean;
   radius: number;
-  shaders: Array<{
-    name: string;
-    vertexShader: WebGLShader;
-    fragmentShader: WebGLShader;
-  }>;
+  modes: Array<string>;
 };
 
 class Settings extends React.Component<SettingsProps> {
@@ -35,10 +39,12 @@ class Settings extends React.Component<SettingsProps> {
       store,
       iterations,
       samplingRate,
-      shaders,
       renderer,
-      activeShader,
       radius,
+      activeMode,
+      modes,
+      smooth,
+      interpolation,
     } = this.props;
     return (
       <Drawer
@@ -57,6 +63,15 @@ class Settings extends React.Component<SettingsProps> {
             padding: 20,
           }}
         >
+          <strong>Shader:</strong>
+          <div
+            className="bp3-select bp3-fill"
+            style={{ marginTop: 5, marginBottom: 15 }}
+          >
+            <select>
+              <option>Mandelbrot</option>
+            </select>
+          </div>
           <Label>
             <strong>Iterations:</strong>
             <NumericInput
@@ -73,7 +88,7 @@ class Settings extends React.Component<SettingsProps> {
           <Label>
             <strong>Radius:</strong>
             <NumericInput
-              disabled={activeShader != 2}
+              disabled={smooth}
               className="bp3-dark"
               fill={true}
               min={0}
@@ -86,7 +101,8 @@ class Settings extends React.Component<SettingsProps> {
             />
           </Label>
           <Label>
-            <strong>Sampling Rate:</strong>
+            <strong>Sampling Rate: </strong>
+            <span className="bp3-text-muted">(NxN)</span>
             <NumericInput
               className="bp3-dark"
               fill={true}
@@ -98,25 +114,44 @@ class Settings extends React.Component<SettingsProps> {
               }}
             />
           </Label>
-          <strong>Shader:</strong>
+          <strong>Mode:</strong>
           <div
             className="bp3-select bp3-fill"
             style={{ marginTop: 5, marginBottom: 15 }}
           >
             <select
               onChange={(event) => {
-                renderer.current.setShaderProgram(event.currentTarget.value);
+                store.updateState({ mode: event.currentTarget.value });
               }}
-              value={activeShader}
+              value={activeMode}
             >
-              {shaders.map((shader, index) => {
+              {modes.map((mode, index) => {
                 return (
-                  <option value={index} key={shader.name}>
-                    {shader.name}
+                  <option value={index} key={mode}>
+                    {mode}
                   </option>
                 );
               })}
             </select>
+          </div>
+          <strong>Extra Options:</strong>
+          <div className="bp3-fill" style={{ marginTop: 5, marginBottom: 5 }}>
+            <Checkbox
+              checked={smooth}
+              onChange={() => {
+                store.updateState({ smooth: !smooth });
+              }}
+            >
+              Smooth
+            </Checkbox>
+            <Checkbox
+              checked={interpolation}
+              onChange={() => {
+                store.updateState({ interpolation: !interpolation });
+              }}
+            >
+              Interpolation
+            </Checkbox>
           </div>
           <strong>Animations:</strong>
           <div style={{ marginTop: 5, width: "100%" }}>
@@ -136,7 +171,7 @@ class Settings extends React.Component<SettingsProps> {
               style={{ marginBottom: 15 }}
               icon="function"
               fill={true}
-              disabled={activeShader != 2}
+              disabled={smooth}
               onClick={() => {
                 store.updateState({ radius: 0 });
                 renderer.current.animateRadius();
@@ -211,8 +246,10 @@ export default function (props: any) {
       store={store}
       iterations={state.iterations}
       samplingRate={state.samplingRate}
-      shaders={state.shaders}
-      activeShader={state.activeShader}
+      activeMode={state.mode}
+      modes={state.modes}
+      smooth={state.smooth}
+      interpolation={state.interpolation}
       radius={state.radius}
     />
   );
