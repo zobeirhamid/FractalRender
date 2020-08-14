@@ -129,7 +129,7 @@ float superSampling(float x, float y) {
 }
 
 vec3 bwRender(float m) {
-	int color = 1 - int(m / iterations);
+	int color = m < iterations ? 1 : 0;
 	return vec3(color, color, color);
 }
 
