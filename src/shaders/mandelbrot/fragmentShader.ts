@@ -113,7 +113,7 @@ float sampling (float x, float y) {
 
 float superSampling(float x, float y) {
 	float change = 1.0 / (float(samplingRate) + 1.0);
-	float m = float(MAX_ITER);
+	float m = 0.0;
 	for (int i = 1; i < MAX_SAMPLING_RATE + 1; i++) {
 		if (i > samplingRate) {
 			break;
@@ -122,13 +122,10 @@ float superSampling(float x, float y) {
 			if (j > samplingRate) {
 				break;
 			}
-			float tmp = sampling(x + float(i) * change, y + float(j) * change);
-			if (tmp < m) {
-				m = tmp;
-			}
+			m = m + sampling(x + float(i) * change, y + float(j) * change);
 		}
 	}
-	return m;
+	return m / float(samplingRate * samplingRate);
 }
 
 vec3 bwRender(float m) {

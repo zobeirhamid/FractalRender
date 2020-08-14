@@ -98,6 +98,7 @@ class Settings extends React.Component<SettingsProps> {
                 return (
                   <Label style={{ flexBasis: "45%" }}>
                     <NumericInput
+                      key={index}
                       fill={true}
                       className="bp3-dark"
                       minorStepSize={0.001}
