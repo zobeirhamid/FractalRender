@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/FractalRender/static/css/main.e5873c1e.chunk.css",
-    "main.js": "/FractalRender/static/js/main.04c472e1.chunk.js",
-    "main.js.map": "/FractalRender/static/js/main.04c472e1.chunk.js.map",
+    "main.js": "/FractalRender/static/js/main.7647cd1b.chunk.js",
+    "main.js.map": "/FractalRender/static/js/main.7647cd1b.chunk.js.map",
     "runtime-main.js": "/FractalRender/static/js/runtime-main.dc945ae5.js",
     "runtime-main.js.map": "/FractalRender/static/js/runtime-main.dc945ae5.js.map",
     "static/css/2.460e1820.chunk.css": "/FractalRender/static/css/2.460e1820.chunk.css",
-    "static/js/2.1b57051c.chunk.js": "/FractalRender/static/js/2.1b57051c.chunk.js",
-    "static/js/2.1b57051c.chunk.js.map": "/FractalRender/static/js/2.1b57051c.chunk.js.map",
+    "static/js/2.2c861eaa.chunk.js": "/FractalRender/static/js/2.2c861eaa.chunk.js",
+    "static/js/2.2c861eaa.chunk.js.map": "/FractalRender/static/js/2.2c861eaa.chunk.js.map",
     "index.html": "/FractalRender/index.html",
-    "precache-manifest.06f0f6cd77624f3c5aea8e1c1f30518b.js": "/FractalRender/precache-manifest.06f0f6cd77624f3c5aea8e1c1f30518b.js",
+    "precache-manifest.a425037b3fe342f9b1947504e87f729c.js": "/FractalRender/precache-manifest.a425037b3fe342f9b1947504e87f729c.js",
     "service-worker.js": "/FractalRender/service-worker.js",
     "static/css/2.460e1820.chunk.css.map": "/FractalRender/static/css/2.460e1820.chunk.css.map",
     "static/css/main.e5873c1e.chunk.css.map": "/FractalRender/static/css/main.e5873c1e.chunk.css.map",
-    "static/js/2.1b57051c.chunk.js.LICENSE.txt": "/FractalRender/static/js/2.1b57051c.chunk.js.LICENSE.txt",
+    "static/js/2.2c861eaa.chunk.js.LICENSE.txt": "/FractalRender/static/js/2.2c861eaa.chunk.js.LICENSE.txt",
     "static/media/index.css": "/FractalRender/static/media/icons-20.cef8cdbb.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.dc945ae5.js",
     "static/css/2.460e1820.chunk.css",
-    "static/js/2.1b57051c.chunk.js",
+    "static/js/2.2c861eaa.chunk.js",
     "static/css/main.e5873c1e.chunk.css",
-    "static/js/main.04c472e1.chunk.js"
+    "static/js/main.7647cd1b.chunk.js"
   ]
 }
