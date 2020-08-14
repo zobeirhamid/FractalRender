@@ -1,6 +1,6 @@
 import React from "react";
 import initShaderProgram from "./webgl/initShaderProgram";
-import { zoom, dragging, resize, centerZoom } from "./webgl/actions";
+import { zoom, dragging, resize, centerZoom, download } from "./webgl/actions";
 import draw from "./webgl/draw";
 import setupVertices from "./webgl/setupVertices";
 import vertexShader from "./shaders/mandelbrot/vertexShader";
@@ -20,9 +20,13 @@ class Renderer extends React.Component<RendererProps> {
     if (canvas !== null) {
       canvas.width = store.getState().width;
       canvas.height = store.getState().height;
-      let gl = canvas.getContext("webgl") as WebGLRenderingContext;
+      let gl = canvas.getContext("webgl", {
+        preserveDrawingBuffer: true,
+      }) as WebGLRenderingContext;
       if (!gl)
-        gl = canvas.getContext("experimental-webgl") as WebGLRenderingContext;
+        gl = canvas.getContext("experimental-webgl", {
+          preserveDrawingBuffer: true,
+        }) as WebGLRenderingContext;
       if (!gl) alert("Your browser does not support WebGL.");
 
       const shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader);
@@ -90,6 +94,29 @@ class Renderer extends React.Component<RendererProps> {
       store.updateState({ radius: radius + 0.01 });
       requestAnimationFrame(() => this.animateRadius(limit));
     }
+  }
+
+  downloadImage() {
+    const { store } = this.props;
+    const { iterations, samplingRate, radius, boundaries } = store.getState();
+    const canvas = document.getElementById("webgl") as HTMLCanvasElement;
+    const filename =
+      "mandelbrot_" +
+      iterations +
+      "_" +
+      samplingRate +
+      "_" +
+      radius +
+      "_" +
+      boundaries.reduce(
+        (string: string, boundary: number, index: number) =>
+          string +
+          boundary.toString() +
+          (index + 1 !== boundaries.length ? "_" : ""),
+        ""
+      ) +
+      ".png";
+    download(canvas, filename);
   }
 
   render() {

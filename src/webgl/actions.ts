@@ -120,3 +120,14 @@ export function dragging() {
     isDragging: () => dragger.mode === DRAGGING,
   };
 }
+
+export function download(canvas: HTMLCanvasElement, filename: string) {
+  const image = canvas
+    .toDataURL("image/png")
+    .replace("image/png", "image/octet-stream");
+
+  const anchor = document.createElement("a");
+  anchor.setAttribute("download", filename);
+  anchor.setAttribute("href", image);
+  anchor.click();
+}
