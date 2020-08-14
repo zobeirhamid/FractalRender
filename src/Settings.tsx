@@ -50,7 +50,7 @@ class Settings extends React.Component<SettingsProps> {
     } = this.props;
     return (
       <Drawer
-        size={220}
+        size={230}
         isOpen={isOpen}
         onClose={() => this.setState({ isOpen: false })}
         hasBackdrop={false}
@@ -96,14 +96,14 @@ class Settings extends React.Component<SettingsProps> {
             >
               {boundaries.map((boundary, index) => {
                 return (
-                  <Label style={{ flexBasis: "45%" }}>
+                  <Label style={{ flexBasis: "45%" }} key={index}>
                     <NumericInput
-                      key={index}
                       fill={true}
                       className="bp3-dark"
-                      minorStepSize={0.001}
+                      minorStepSize={0.01}
                       stepSize={0.01}
-                      value={boundary}
+                      majorStepSize={0.01}
+                      value={parseFloat(boundary.toPrecision(3))}
                       onValueChange={(value) => {
                         const newBoundaries = [...boundaries];
                         newBoundaries[index] = value;
@@ -119,8 +119,6 @@ class Settings extends React.Component<SettingsProps> {
               <NumericInput
                 className="bp3-dark"
                 fill={true}
-                min={1}
-                max={10000}
                 value={iterations}
                 onValueChange={(value) => {
                   store.updateState({ iterations: value });
@@ -133,10 +131,10 @@ class Settings extends React.Component<SettingsProps> {
                 disabled={smooth}
                 className="bp3-dark"
                 fill={true}
-                min={0}
-                max={5}
-                stepSize={0.1}
-                value={radius}
+                minorStepSize={0.01}
+                stepSize={0.01}
+                majorStepSize={0.01}
+                value={parseFloat(radius.toPrecision(3))}
                 onValueChange={(value) => {
                   store.updateState({ radius: value });
                 }}
@@ -148,8 +146,6 @@ class Settings extends React.Component<SettingsProps> {
               <NumericInput
                 className="bp3-dark"
                 fill={true}
-                min={1}
-                max={64}
                 value={samplingRate}
                 onValueChange={(value) => {
                   store.updateState({ samplingRate: value });

@@ -145,10 +145,6 @@ vec3 colorRender(float m) {
 	return hsv2rgb(vec3(hue, saturation, value));
 }
 
-int func_mod(int x, int y) {
-	return int(float(x)-float(y)*floor(float(x)/float(y)));
-}
-
 void main(void)
 {
 
@@ -156,6 +152,10 @@ void main(void)
 	float y = gl_FragCoord.y - 0.5;
 
 	float m = superSampling(x, y);
+
+	if (interpolation == 1){
+		m = float(int(m));
+	}
 
 	vec3 color1;
 	vec3 color2;
