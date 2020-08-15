@@ -239,6 +239,7 @@ They are all straightforward using Javascript since we have mouse events we can 
 <p>
 Now we can interact with the Mandelbrot Set and render even more interesting parts of it.
 </p>
+<br>
 <div align="center">
   <figure>
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/zoomed.png"><br>
@@ -281,7 +282,7 @@ Unfortunately, there are cases in which the new height is bigger than the device
 ### Second Problem
 
 <p>
-If we have a high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}">, and the Complex Number is diverging, but at a high <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">, then the color will be not distinguishable to it's area, which results into aliasing. The solution to that is creating a histogram and assign colors based on the distribution of <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">. Unfortunately, WebGL does not allow for dynamic array, therefore setting an array based on the <img src="https://render.githubusercontent.com/render/math?math=width*height"> will not be technical possible which ultimately showed me the limitation of WebGL.
+If we have a high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}">, and the Complex Number is diverging, but at a high <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">, then the color will be not distinguishable to its surrounding area, which results into aliasing. The solution to that is creating a histogram and assign colors based on the distribution of <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">. Unfortunately, WebGL does not allow for dynamic array, therefore setting an array based on the <img src="https://render.githubusercontent.com/render/math?math=width*height"> will not be technical possible which ultimately showed me the limitation of WebGL.
 </p>
 
 ## Take away
@@ -293,14 +294,31 @@ But the most important lesson I learned was finding out about the limitation of 
 
 ## Results
 
+### Images
+
 <div align="center">
   <figure>
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration.png"><br>
-    <figcaption>High Iteration, Sample Size 4x4</figcaption><br>
+    <figcaption><img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}"></figcaption><br>
   </figure>
   <figure>
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration_zoom.png"><br>
-    <figcaption>High Iteration, Sample Size 4x4, Zoomed</figcaption>
+    <figcaption>
+      <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}, zoomed"> 
+    </figcaption><br>
+  </figure>
+</div>
+
+### Animations
+
+<div align="center">
+  <figure>
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/blob/master/docs/videos/gifs/IterationAnimation.gif?raw=true"><br>
+    <figcaption>Animation of incrementing <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> by 1 for each frame</figcaption><br>
+  </figure>
+  <figure>
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/blob/master/docs/videos/gifs/ThresholdAnimation.gif?raw=true"><br>
+    <figcaption>Animation of incrementing <img src="https://render.githubusercontent.com/render/math?math=MAX_{threshold}"> by 0.01 for each frame</figcaption><br>
   </figure>
 </div>
 
