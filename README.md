@@ -2,7 +2,7 @@
 
 A WebGL Renderer for Fractal Equations.
 
-<a target="_blank" href="https://github.com/zobeirhamid/FractalRender">WebGL Project Link</a> (to open the GUI press your keyboard's SPACE_BAR)
+<a target="_blank" href="https://zobeirhamid.github.io/FractalRender/">WebGL Project Link</a> (to open the GUI press your keyboard's SPACE_BAR)
 
 ## Abstract
 
