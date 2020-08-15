@@ -15,7 +15,7 @@ This project implements a fractal equation renderer using WebGL. It will use the
 ### Introduction to Fractals
 
 <p>
-Fractals are all around us. Brocolli is a fractal, snowflakes are fractals, and the pattern of a shell is a fractal. The mathematically definition of a fractal is very vague, since it is not understood properly, but it involves the recursion of a pattern or equation since fractals represent the concept of "self-similarity". They are objects of investigation in regards to Chaos Theory since most graphs representing chaos are fractals.
+Fractals are all around us. Broccoli is a fractal, snowflakes are fractals, and the pattern of a shell is a fractal. The mathematically definition of a fractal is very vague, since it is not understood properly, but it involves the recursion of a pattern or equation since fractals represent the concept of "self-similarity". They are objects of investigation in regards to Chaos Theory since most graphs representing chaos are fractals.
 </p>
 
 ### KochFlake
@@ -54,7 +54,7 @@ Fig.2 reprsents the Mandelbrot Set, with the area in black representing the poin
   </figure>
 </div>
 <p>
-This equation is used to render the Mandelbrot Set by iterating through all the Complex Numbers in the Complex Plane and determining which Complex Number <img src="https://render.githubusercontent.com/render/math?math=c"> is converging and which is diverging slowly by reapplying the equation by itself start with <img src="https://render.githubusercontent.com/render/math?math=z=0">, while we keep track of the iteration count in the variable <img src="https://render.githubusercontent.com/render/math?math=m">.
+This equation is used to render the Mandelbrot Set by iterating through all the Complex Numbers in the Complex Plane and determining which Complex Number <img src="https://render.githubusercontent.com/render/math?math=c"> is converging and which is diverging slowly by reapplying the equation by itself start with <img src="https://render.githubusercontent.com/render/math?math=z=0">, while we keep track of the iteration count in the variable <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}">.
 </p>
 <div align="center">
   <div>
@@ -78,7 +78,7 @@ This equation is used to render the Mandelbrot Set by iterating through all the 
 - GUI for manipulating variables, e.g. <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"><br>
 
 <p>
-Allowing for User Interactions, I would need to take advantage of the GPU, therefore I would use shaders. I was familiar with GUI programming in Javascript, therefore I decided to use WebGL which is a subset of OpenGL for the browser, so it supports Javascript and GLSL. I decided to code everything from scratch to learn how to set up a Graphics Pipeline with WebGL.
+Allowing for User Interactions, I would need to take advantage of the GPU, therefore I would use shaders. I was familiar with GUI programming in Javascript, therefore I decided to use WebGL which is a subset of OpenGL for the browser, so I can use Javascript and GLSL. I decided to code everything from scratch for learning purposes.
 </p>
 
 ### WebGL
@@ -86,7 +86,7 @@ Allowing for User Interactions, I would need to take advantage of the GPU, there
 #### First Step: Setting up the Pixel Space
 
 <p>
-The first step was to decide how to render the Complex Plane onto Pixel Space. In a broader perspective, the Mandelbrot Set always takes in the whole screen since rendering includes the divergent and convergent area, so it is one big object. Therefore I decided to use 4 vertices for each corner of the Pixel Space to create one big rectangle which we draw the Mandelbrot Set onto.<br>
+The first step was to decide how to render the Complex Plane onto Pixel Space. In a broader perspective, the Mandelbrot Set always takes in the whole screen since rendering includes the divergent and convergent area, so it is one big object. Therefore I decided to use 4 vertices for each corner of the Pixel Space to create one big rectangle which we draw the Mandelbrot Set on.<br>
 </p>
 
 <div align="center">
@@ -99,15 +99,15 @@ The first step was to decide how to render the Complex Plane onto Pixel Space. I
 #### Second Step: Mapping the Pixel Space to the Complex Space
 
 <p>
-To be able to draw the Mandelbrot Set in Pixel Space, we need to transform the Pixel Space into Complex Space, so we can assign each pixel a unique Complex Number <img src="https://render.githubusercontent.com/render/math?math=c=a%2Bi{b}">.
+To be able to draw the Mandelbrot Set in Pixel Space, we need to transform the Pixel Space into Complex Space, so we can assign each pixel a unique Complex Number <img src="https://render.githubusercontent.com/render/math?math=c=a%2B{b}i">.
 </p>
 
 <p>
-Convenient, the Complex Space is 2-dimensional as our Pixel Space is, therefore we can use the real part <img src="https://render.githubusercontent.com/render/math?math=a"> for our x-values and the imaginary part with the real number <img src="https://render.githubusercontent.com/render/math?math=b"> as our y-values.
+Convenient, the Complex Space is 2-dimensional as our Pixel Space is, therefore we can use the real part <img src="https://render.githubusercontent.com/render/math?math=a"> for our x-values and the imaginary part with the real number <img src="https://render.githubusercontent.com/render/math?math=b"> as our y-values, so we can store a Complex Number in 2-dimensional vector.
 </p>
 
 <p>
-Next, we observe that the Complex Space is infinite, but the Pixel Space is finite, therefore we have to bound the Complex Space, by four Complex Numbers. We use the four Complex Numbers as the vertices of the rectangle, and interpolate in between them using the pixel position and the Pixel Space width and height.
+Next, we observe that the Complex Space is infinite, but the Pixel Space is finite, therefore we have to bound the Complex Space, by four Complex Numbers. We use the four Complex Numbers as the vertices of the rectangle, and interpolate in between them using the pixel position and the Pixel Space's width and height.
 </p>
 <div align="center">
   <figure>
@@ -126,18 +126,31 @@ Now, we just have to create a bijection between the Pixel Space and Complex Spac
   </figure>
 </div>
 <p>
-Now we can iterate through the whole Pixel Space and associate each Pixel with a Complex Number <img src="https://render.githubusercontent.com/render/math?math=c"> and iterate the Mandelbrot Set Equation on <img src="https://render.githubusercontent.com/render/math?math=c"> and determine if it's converging or diverging and if diverging, the rate of divergence.
+Now we can iterate through the whole Pixel Space and associate each Pixel with a Complex Number <img src="https://render.githubusercontent.com/render/math?math=c"> and iterate the Mandelbrot Set Equation on <img src="https://render.githubusercontent.com/render/math?math=c"> and determine if it's converging or diverging and if it is diverging, we can determine the rate of divergence.
 </p>
 
 ### Third Step:Iterating the Mandelbrot Set Equation
 
 <p>
-The iteration of the Mandelbrot Set Equation is very simple. We need to set the <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> to an large number, since we try to simulate the behaviour for <img src="https://render.githubusercontent.com/render/math?math=z_{n\rightarrow\infty}=(z_{n-1})^{2}%2Bc">. Next we need to set a threshold to determine if a number is diverging, for the Mandelbrot Set the threshold is <img src="https://render.githubusercontent.com/render/math?math=4"> with <img src="https://render.githubusercontent.com/render/math?math=norm\left(c\right)\ \le\ 4">.
-</p>
+The iteration of the Mandelbrot Set Equation is very simple. We need to set the <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> to an large number, since we try to simulate the behaviour for <img src="https://render.githubusercontent.com/render/math?math=z_{n\rightarrow\infty}=(z_{n-1})^{2}%2Bc">. Next we need to set a threshold to determine if a number is diverging, for the Mandelbrot Set the threshold is <img src="https://render.githubusercontent.com/render/math?math=4"> with <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\le\ 4">. Additionaly, we need to implement squaring a Complex Number, therefore we need to implement multiplication for Complex Numbers which is trivial using 2-dimensional vectors.
+</p><br>
+
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=norm\left(c\right)\ \le\ 4\ or\ m_{iterations}=MAX_{iterations}"><br>
-    <figcaption>The conditions for the iteration to break</figcaption>
+    <img src="https://render.githubusercontent.com/render/math?math=(a%2Bbi)\cdot(c%2Bdi)=\left(ac-bd\right)%2B\left(ad%2Bbc\right)i"><br>
+    <figcaption>Multiplication for Complex Numbers</figcaption><br>
+  </figure>
+  <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=\left(a%2Bbi\right)^{2}=\left(a^{2}-b^{2}\right)%2B 2ab{i}"><br>
+    <figcaption>Squaring a Complex Numbers.</figcaption><br>
+  </figure>
+    <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|=|a%2Bbi|=\sqrt{\left(a^{2}\right)%2B\left(b^{2}\right)}"><br>
+    <figcaption>The magnitude of a Complex Number</figcaption><br>
+  </figure>
+  <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\le\ 4\ or\ m_{iterations}=MAX_{iterations}"><br>
+    <figcaption>The conditions for the iteration to break</figcaption><br>
   </figure>
 </div>
 <p>
@@ -148,7 +161,7 @@ The iteration of the Mandelbrot Set Equation is very simple. We need to set the 
 
 <p>
 We can use <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> for determining the color of the pixel, since pixel and complex numbers are forming a bijection in our framework.
-</p>
+</p><br>
 <div align="center">
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0"><br>
@@ -165,7 +178,7 @@ We can use <img src="https://render.githubusercontent.com/render/math?math=m_{it
 </div>
 
 <p>
-The implementation involves three variations, Black & White, Grey, and HSV Colors. Black & White only checking if the Complex Number converges or diverges. Grey takes into consideration the rate of divergence, to display grey pixels. And HSV Colors do not allow for White, instead the Color for divergence is Red, and then for different divergence rates, it will change accordingly around the Color circle. I decided to use HSV Color because it continous, therefore I can use the rate of divergent to determine a color, but also is it pleasant for the Human perception. There are different other methods to display color, like using a Color Palette and mapping areas of rate of divergence for different colors.
+The implementation involves three variations, Black & White, Grey, and HSV Colors. For Black & Whitewe are only checking if the Complex Number converges or diverges. For Grey we take into consideration the rate of divergence, to display grey pixels. And for HSV Colors, we change the base color for divergence to red instead of white, and then for different divergence rates, it will change accordingly around the Color circle. I decided to use HSV Color because it continous, therefore I can use the rate of divergent to determine a color, but also is it pleasant for the Human perception. There are different other methods to display color, like using a Color Palette and mapping areas of rate of divergence for different colors.
 </p>
 
 #### Variables
@@ -190,26 +203,100 @@ With this we are able to render the Mandelbrot Set
 <div align="center">
     <figure>
       <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png"><br>
-      <figcaption>The Mandelbrot Set in Black & White</figcaption>
+      <figcaption>The Mandelbrot Set in Black & White with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
+      <br>
     </figure>
-    <br>
     <figure>
       <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png"><br>
-      <figcaption>The Mandelbrot Set in Grey Scales</figcaption>
+      <figcaption>The Mandelbrot Set in Grey Scales with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
+      <br>
     </figure>
-    <br>
     <figure>
       <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png"><br>
-      <figcaption>The Mandelbrot Set in Color</figcaption>
+      <figcaption>The Mandelbrot Set in Color with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
+      <br>
     </figure>
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000.png"><br>
+      <figcaption>The Mandelbrot Set in Color with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></figcaption>
+      <br>
+    </figure>
+</div>
+
+### Optimizations
+
+#### Optimized Escape Algorithm
+
+The described algorithm above works, but it is very inefficient since we are using five multiplications inside the iterations loop, since multiplying two complex numbers involves in our case 3 multiplications and calculating the magnitude of a complex number involves 2 more multiplications. There is the optimized escape algorithm which is more efficient since it using only three multiplications.
+
+First, we observe that calculating the magnitude of a Complex Numbers involves calculating the real numbers <img src="https://render.githubusercontent.com/render/math?math=a^{2}"> and <img src="https://render.githubusercontent.com/render/math?math=b^{2}">. For calculating the Mandelbrot Set Equation we have to square a Complex Number which also involves <img src="https://render.githubusercontent.com/render/math?math=a^{2}"> and <img src="https://render.githubusercontent.com/render/math?math=b^{2}">, therefore saving those two real numbers in separate variables, we can save 2 multiplications.
+
+### Continous (Smooth) Coloring
+
+Looking at the Mangelbrot Set in color, we can observe that the colors are not smoothly transitioning, since the different color regions are identifiable. This is a form of aliasing since the colors should be distributed continously over the space, since the Complex Space is continous, but we are working on a discrete space which is bounded by a width and height, therefore we have to work around that. The main idea to fix the aliasing is by normalizing the iteration count, therefore we have a more even distribution, so we artificially create a continous transition between colors. To implement the artificial continous transition we need to change the old breaking condition since we wanna get bigger values of <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> for divergent areas, therefore it is necessary to enforce a bigger divergence criterium. For normalizing the <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}">, we can use a potential function.
+
+#### Equations
+
+<div align="center">
+  <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=x^{2}+y^{2}>2^{8}"><br>
+    <figcaption>New Divergence Criterium</figcaption><br>
+  </figure>
+  <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=\phi\left(z\right)=\lim_{n\to\infty}\frac{\log\left|z\right|}{P^{n}},\ P:\ f\left(z\right)=z^{p}+c">
+   <figcaption>Potentional Function</figcaption><br> 
+  </figure>
+  <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=m_{last}\ge MAX_{iterations}"><br>
+    <figcaption>Condition for normalizing</figcaption><br>
+  </figure>
+  <figure>
+    <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}=m_{last}%2B1.0-\left(\frac{\log\left(\frac{\log\left(a^{2}%2Bb^{2}\right)}{2}\right)}{\log\left(2\right)^{2}}\right)"><br>
+    <figcaption>Normalized <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"></figcaption><br>
+  </figure>
+</div>
+
+#### Result
+
+<div align="center">
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/smooth.png"><br>
+      <figcaption>The Mandelbrot Set in Color with smooth transitions and <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+    </figure>
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Smooth.png"><br>
+      <figcaption>The Mandelbrot Set in Color with smooth transitions <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></figcaption><br>
+    </figure>
+</div>
+
+<p>
+This method is really good for small <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but don't really change anything for high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}"> since the the pixel depth is more dense which means the neighbourhood pixels cannot have as different divergence rates since more iterations are allowed.
+</p>
+
+### Linear Interpolation
+
+The last optimization we can do is interpolating the colors for the current <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> and <img src="https://render.githubusercontent.com/render/math?math=m_{iterations} + 1">. This is combination is not desirable for low <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but gives more detail if <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}"> is very big like <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000">.
+
+#### Result
+
+<div align="center">
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/interpolated.png"><br>
+      <figcaption>Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
+      <br>
+    </figure>
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Interpolated.png"><br>
+      <figcaption>Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
     <br>
+    </figure>
 </div>
 
 ### Interactions
 
 <p>
 Since we rendered the Mandelbrot Set using our GPU, we should try implementing some CPU operations to interact with it. I will implement the three interactions zooming, dragging, and resizing.
-They are all straightforward using Javascript since we have mouse events we can listen to and then apply the action we want by computing the new boundaries. I will not go in detail of how I implemented those functions, but I give the mathematical equations to compute the new boundaries.
+They are all straightforward using Javascript since we have mouse events which we can listen to and then apply the action we want by computing the new boundaries. I will not go in detail of how I implemented those functions, but I give the mathematical equations to compute the new boundaries.
 </p>
 
 <div align="center">
@@ -250,7 +337,7 @@ Now we can interact with the Mandelbrot Set and render even more interesting par
 ### Animations
 
 <p>
-Let's have some fun with animations and investigate how the Mandelbrot Set is created by animating the <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> starting from <img src="https://render.githubusercontent.com/render/math?math=0"> to for example <img src="https://render.githubusercontent.com/render/math?math=100">. I decided to create a dynamic state which holds all the variables we have to set, and when they get updated we redraw the canvas with the WebGL context. Since we somehow have to start the animation, I decided to include React into the Renderer, by creating a GUI which allows to change all the variables, change between colors, and even save the rendered Mandelbrot Set as a png.
+Let's have some fun with animations and investigate how the Mandelbrot Set is created by animating the <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> starting from <img src="https://render.githubusercontent.com/render/math?math=0"> to for example <img src="https://render.githubusercontent.com/render/math?math=100">. I decided to create a dynamic state which holds all the variables we have to set, and when they get updated we redraw the canvas with the WebGL context. Since we somehow have to start the animation, I decided to include React to the application for creating a GUI which allows to change all the variables, change between colors, and even save the rendered Mandelbrot Set as an image.
 </p>
 
 <p>
@@ -285,6 +372,13 @@ Unfortunately, there are cases in which the new height is bigger than the device
 If we have a high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}">, and the Complex Number is diverging, but at a high <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">, then the color will be not distinguishable to its surrounding area, which results into aliasing. The solution to that is creating a histogram and assign colors based on the distribution of <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">. Unfortunately, WebGL does not allow for dynamic array, therefore setting an array based on the <img src="https://render.githubusercontent.com/render/math?math=width*height"> will not be technical possible which ultimately showed me the limitation of WebGL.
 </p>
 
+<div align="center">
+  <figure>
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/limitation.png"><br>
+    <figcaption><img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=8^{2}, zoomed"></figcaption><br>
+  </figure>
+</div>
+
 ## Take away
 
 <p>
@@ -303,6 +397,12 @@ But the most important lesson I learned was finding out about the limitation of 
   </figure>
   <figure>
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration_zoom.png"><br>
+    <figcaption>
+      <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}, zoomed"> 
+    </figcaption><br>
+  </figure>
+  <figure>
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/resultGrey.png"><br>
     <figcaption>
       <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}, zoomed"> 
     </figcaption><br>
