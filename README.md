@@ -155,10 +155,12 @@ We can use <img src="https://render.githubusercontent.com/render/math?math=m_{it
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0"><br>
     <figcaption>Black & White</figcaption>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ 1-\frac{m_{iterations}}{MAX_{iterations}}"><br>
     <figcaption>Grey</figcaption>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ hsv\left(\frac{m_{iterations}}{MAX_{iterations}},\ 1,\ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0\right)"><br>
     <figcaption>HSV Color</figcaption>
