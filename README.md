@@ -155,12 +155,10 @@ We can use <img src="https://render.githubusercontent.com/render/math?math=m_{it
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0"><br>
     <figcaption>Black & White</figcaption>
   </figure>
-  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ 1-\frac{m_{iterations}}{MAX_{iterations}}"><br>
     <figcaption>Grey</figcaption>
   </figure>
-  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ hsv\left(\frac{m_{iterations}}{MAX_{iterations}},\ 1,\ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0\right)"><br>
     <figcaption>HSV Color</figcaption>
@@ -191,18 +189,21 @@ With this we are able to render the Mandelbrot Set
 #### First Results
 
 <div align="center">
-  <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png"><br>
-    <figcaption>The Mandelbrot Set in Black & White</figcaption>
-  </figure>
     <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png"><br>
-    <figcaption>The Mandelbrot Set in Grey Scales</figcaption>
-  </figure>
-  <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png"><br>
-    <figcaption>The Mandelbrot Set in Color</figcaption>
-  </figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png"><br>
+      <figcaption>The Mandelbrot Set in Black & White</figcaption>
+    </figure>
+    <br>
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png"><br>
+      <figcaption>The Mandelbrot Set in Grey Scales</figcaption>
+    </figure>
+    <br>
+    <figure>
+      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png"><br>
+      <figcaption>The Mandelbrot Set in Color</figcaption>
+    </figure>
+    <br>
 </div>
 
 ### Interactions
