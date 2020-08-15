@@ -24,7 +24,7 @@ For illustration purposes I will use a snowflake to clearly define the propertie
 </p>
 <div align="center">
   <figure>
-    <img width="500" height="500" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/KochFlake.png">
+    <img width="500" height="500" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/KochFlake.png"><br>
     <figcaption>The KochFlake defined by Helge von Koch</figcaption>
   </figure>
 </div>
@@ -39,7 +39,7 @@ The KochFlake is easy in theory, but hard to implement since you have to add thr
 </p>
 <div align="center">
   <figure>
-    <img width="500" height="375" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/mandelbrot.jpg">
+    <img width="500" height="375" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/mandelbrot.jpg"><br>
     <figcaption>The Mandelbrot Set</figcaption>
   </figure>
 </div>
@@ -48,7 +48,7 @@ Fig.2 reprsents the Mandelbrot Set, with the area in black representing the poin
 </p>
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=f_{c}\left(z\right)=z^{2}%2Bc">
+    <img src="https://render.githubusercontent.com/render/math?math=f_{c}\left(z\right)=z^{2}%2Bc"><br>
     <figcaption>The Fractal equation for the Mandelbrot Set</figcaption>
   </figure>
 </div>
@@ -92,7 +92,7 @@ The first step was to decide how to render the Complex Plane onto Pixel Space. I
 
 <div align="center">
   <figure>
-    <img width="500" height="333" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/coordinate1.png">
+    <img width="500" height="333" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/coordinate1.png"><br>
     <figcaption>The whole Pixel Space as one rectangle</figcaption>
   </figure>
 </div>
@@ -112,7 +112,7 @@ Next, we observe that the Complex Space is infinite, but the Pixel Space is fini
 </p>
 <div align="center">
   <figure>
-    <img width="500" height="333" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/coordinate3.png">
+    <img width="500" height="333" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/coordinate3.png"><br>
     <figcaption>Setup for Pixel Space to Complex Space conversion</figcaption>
   </figure>
 </div>
@@ -122,7 +122,7 @@ Now, we just have to create a bijection between the Pixel Space and Complex Spac
 </p>
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=c=x_{0}%2Bx\cdot\frac{\left(x_{1}-x_{0}\right)}{width}%2Bi\cdot\left(y_{0}%2By\cdot\frac{\left(y_{1}-y_{0}\right)}{height}\right)">
+    <img src="https://render.githubusercontent.com/render/math?math=c=x_{0}%2Bx\cdot\frac{\left(x_{1}-x_{0}\right)}{width}%2Bi\cdot\left(y_{0}%2By\cdot\frac{\left(y_{1}-y_{0}\right)}{height}\right)"><br>
     <figcaption>This equation maps every pixel to a unique Complex Number</figcaption>
   </figure>
 </div>
@@ -137,7 +137,7 @@ The iteration of the Mandelbrot Set Equation is very simple. We need to set the 
 </p>
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=norm\left(c\right)\ \le\ 4\ or\ m_{iterations}=MAX_{iterations}">
+    <img src="https://render.githubusercontent.com/render/math?math=norm\left(c\right)\ \le\ 4\ or\ m_{iterations}=MAX_{iterations}"><br>
     <figcaption>The conditions for the iteration to break</figcaption>
   </figure>
 </div>
@@ -152,15 +152,15 @@ We can use <img src="https://render.githubusercontent.com/render/math?math=m_{it
 </p>
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0">
+    <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0"><br>
     <figcaption>Black & White</figcaption>
   </figure>
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=color\ =\ 1-\frac{m_{iterations}}{MAX_{iterations}}">
+    <img src="https://render.githubusercontent.com/render/math?math=color\ =\ 1-\frac{m_{iterations}}{MAX_{iterations}}"><br>
     <figcaption>Grey</figcaption>
   </figure>
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=color\ =\ hsv\left(\frac{m_{iterations}}{MAX_{iterations}},\ 1,\ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0\right)">
+    <img src="https://render.githubusercontent.com/render/math?math=color\ =\ hsv\left(\frac{m_{iterations}}{MAX_{iterations}},\ 1,\ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0\right)"><br>
     <figcaption>HSV Color</figcaption>
   </figure>
 </div>
@@ -190,15 +190,15 @@ With this we are able to render the Mandelbrot Set
 
 <div align="center">
   <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png">
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png"><br>
     <figcaption>The Mandelbrot Set in Black & White</figcaption>
   </figure>
     <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png">
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png"><br>
     <figcaption>The Mandelbrot Set in Grey Scales</figcaption>
   </figure>
   <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png">
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png"><br>
     <figcaption>The Mandelbrot Set in Color</figcaption>
   </figure>
 </div>
@@ -239,7 +239,7 @@ Now we can interact with the Mandelbrot Set and render even more interesting par
 </p>
 <div align="center">
   <figure>
-    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/zoomed.png">
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/zoomed.png"><br>
     <figcaption>The Mandelbrot Set zoomed in Grey Scale</figcaption>
   </figure>
 </div>
@@ -263,7 +263,7 @@ I encountered two problems. The first problem was that I wanted to render the Ma
 </p>
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=height=\frac{2}{3}\cdot width">
+    <img src="https://render.githubusercontent.com/render/math?math=height=\frac{2}{3}\cdot width"><br>
   </figure>
 </div>
 
@@ -272,7 +272,7 @@ Unfortunately, there are cases in which the new height is bigger than the device
 </p>
 <div align="center">
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=width=\frac{3}{2}\cdot height">
+    <img src="https://render.githubusercontent.com/render/math?math=width=\frac{3}{2}\cdot height"><br>
   </figure>
 </div>
 
@@ -290,6 +290,17 @@ But the most important lesson I learned was finding out about the limitation of 
 </p>
 
 ## Results
+
+<div align="center">
+  <figure>
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration.png"><br>
+    <figcaption>High Iteration, Sample Size 4x4</figcaption><br>
+  </figure>
+  <figure>
+    <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration_zoom.png"><br>
+    <figcaption>High Iteration, Sample Size 4x4, Zoomed</figcaption>
+  </figure>
+</div>
 
 ## Resources
 
