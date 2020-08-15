@@ -2,8 +2,7 @@
 
 A WebGL Renderer for Fractal Equations.
 
-<div align="center" style="background-color: white">
-</div>
+<a target="_blank" href="https://github.com/zobeirhamid/FractalRender">WebGL Project Link</a> (to open the GUI press your keyboard's SPACE_BAR)
 
 ## Abstract
 
@@ -69,8 +68,6 @@ This equation is used to render the Mandelbrot Set by iterating through all the 
 </div>
 
 ## Implementation
-
-le
 
 ### Requirements
 
