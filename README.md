@@ -274,12 +274,12 @@ Looking at the Mangelbrot Set in color, we can observe that the colors are not s
 <div align="center">
 
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=x^{2}+y^{2}>2^{8}"><br>
+    <img src="https://render.githubusercontent.com/render/math?math=x^{2}%2By^{2}>2^{8}"><br>
     <figcaption><em>New Divergence Criterium</em></figcaption><br>
   </figure>
   <br>
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=\phi\left(z\right)=\lim_{n\to\infty}\frac{\log\left|z\right|}{P^{n}},\ P:\ f\left(z\right)=z^{p}+c">
+    <img src="https://render.githubusercontent.com/render/math?math=\phi\left(z\right)=\lim_{n\to\infty}\frac{\log\left|z\right|}{P^{n}},\ P:\ f\left(z\right)=z^{p}%2Bc">
    <figcaption><em>Potentional Function</em></figcaption><br> 
   </figure>
   <br>
@@ -319,7 +319,7 @@ This method is really good for small <img src="https://render.githubusercontent.
 
 #### Linear Interpolation
 
-The last optimization we can do is interpolating the colors for the current <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> and <img src="https://render.githubusercontent.com/render/math?math=m_{iterations} + 1">. This is combination is not desirable for low <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but gives more detail if <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}"> is very big like <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000">.
+The last optimization we can do is interpolating the colors for the current <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> and <img src="https://render.githubusercontent.com/render/math?math=m_{iterations} %2B 1">. This is combination is not desirable for low <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but gives more detail if <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}"> is very big like <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000">.
 
 ##### Result
 
