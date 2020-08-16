@@ -50,8 +50,9 @@ Fig.2 reprsents the Mandelbrot Set, with the area in black representing the poin
 <div align="center">
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=f_{c}\left(z\right)=z^{2}%2Bc"><br>
-    <figcaption>The Fractal equation for the Mandelbrot Set</figcaption>
+    <figcaption>The Fractal equation for the Mandelbrot Set</figcaption><br>
   </figure>
+  <br>
 </div>
 <p>
 This equation is used to render the Mandelbrot Set by iterating through all the Complex Numbers in the Complex Plane and determining which Complex Number <img src="https://render.githubusercontent.com/render/math?math=c"> is converging and which is diverging slowly by reapplying the equation by itself start with <img src="https://render.githubusercontent.com/render/math?math=z=0">, while we keep track of the iteration count in the variable <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}">.
@@ -140,18 +141,22 @@ The iteration of the Mandelbrot Set Equation is very simple. We need to set the 
     <img src="https://render.githubusercontent.com/render/math?math=(a%2Bbi)\cdot(c%2Bdi)=\left(ac-bd\right)%2B\left(ad%2Bbc\right)i"><br>
     <figcaption>Multiplication for Complex Numbers</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=\left(a%2Bbi\right)^{2}=\left(a^{2}-b^{2}\right)%2B 2ab{i}"><br>
     <figcaption>Squaring a Complex Numbers.</figcaption><br>
   </figure>
-    <figure>
+  <br>
+  <figure>
     <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|=|a%2Bbi|=\sqrt{\left(a^{2}\right)%2B\left(b^{2}\right)}"><br>
     <figcaption>The magnitude of a Complex Number</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\le\ 4\ or\ m_{iterations}=MAX_{iterations}"><br>
     <figcaption>The conditions for the iteration to break</figcaption><br>
   </figure>
+  <br>
 </div>
 <p>
 <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> is indicating the iteration count for a specific Complex Number. Finishing the iteration we will have two cases, either the iteration determined the Complex Number is diverging or converging, with <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}=MAX_{iterations}"> indicating convergence.
@@ -165,16 +170,19 @@ We can use <img src="https://render.githubusercontent.com/render/math?math=m_{it
 <div align="center">
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0"><br>
-    <figcaption>Black & White</figcaption>
+    <figcaption>Black & White</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ 1-\frac{m_{iterations}}{MAX_{iterations}}"><br>
-    <figcaption>Grey</figcaption>
+    <figcaption>Grey</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ hsv\left(\frac{m_{iterations}}{MAX_{iterations}},\ 1,\ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0\right)"><br>
-    <figcaption>HSV Color</figcaption>
+    <figcaption>HSV Color</figcaption><br>
   </figure>
+  <br>
 </div>
 
 <p>
@@ -188,11 +196,10 @@ At this point, the framework is almost complete, we only need to determine the v
 </p>
 
 <div align="center">
-  <div>
-    <img src="https://render.githubusercontent.com/render/math?math={a \in\left[-2,\ 1\right]}, {b \in\left[-1,\ 1\right]}"><br>
-    <img src="https://render.githubusercontent.com/render/math?math=\frac{width}{height}=\frac{3}{2}">
-  </div>
+  <img src="https://render.githubusercontent.com/render/math?math={a \in\left[-2,\ 1\right]}, {b \in\left[-1,\ 1\right]}"><br>
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{width}{height}=\frac{3}{2}">
 </div>
+<br>
 
 <p>
 With this we are able to render the Mandelbrot Set
@@ -242,14 +249,17 @@ Looking at the Mangelbrot Set in color, we can observe that the colors are not s
     <img src="https://render.githubusercontent.com/render/math?math=x^{2}+y^{2}>2^{8}"><br>
     <figcaption>New Divergence Criterium</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=\phi\left(z\right)=\lim_{n\to\infty}\frac{\log\left|z\right|}{P^{n}},\ P:\ f\left(z\right)=z^{p}+c">
    <figcaption>Potentional Function</figcaption><br> 
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=m_{last}\ge MAX_{iterations}"><br>
     <figcaption>Condition for normalizing</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}=m_{last}%2B1.0-\left(\frac{\log\left(\frac{\log\left(a^{2}%2Bb^{2}\right)}{2}\right)}{\log\left(2\right)^{2}}\right)"><br>
     <figcaption>Normalized <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"></figcaption><br>
@@ -305,22 +315,25 @@ They are all straightforward using Javascript since we have mouse events which w
     <img src="https://render.githubusercontent.com/render/math?math=x_{1} = x_{0}-\left(1-\frac{x}{width}\right)\cdot\left(x_{1}-x_{0}\right)\cdot0.05_{zoomfactor}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{0} = y_{0}%2B\left(1-\frac{y}{height}\right)\cdot\left(y_{1}-y_{0}\right)\cdot0.05_{zoomfactor}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{1} = y_{1}-\frac{y}{height}\cdot\left(y_{1}-y_{0}\right)\cdot0.05_{zoomfactor}"><br>
-    <figcaption>Zoom</figcaption>
+    <figcaption>Zoom</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=x_{0}=x_{0}%2B\frac{\left(x_{current}-x_{previous}\right)\left(x_{1}-x_{0}\right)}{width}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=x_{1}=x_{1}%2B\frac{\left(x_{current}-x_{previous}\right)\left(x_{1}-x_{0}\right)}{width}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{0}=y_{0}-\frac{\left(y_{current}-y_{previous}\right)\left(y_{1}-y_{0}\right)}{height}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{1}=y_{1}-\frac{\left(y_{current}-y_{previous}\right)\left(y_{1}-y_{0}\right)}{height}"><br>
-    <figcaption>Dragging</figcaption>
+    <figcaption>Dragging</figcaption><br>
   </figure>
+  <br>
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=x_{0}=x_{0}-\left(\frac{\left(width_{new}-width_{old}\right)\cdot\left(x_{1}-x_{0}\right)}{2\cdot width_{old}}\right)"><br>
     <img src="https://render.githubusercontent.com/render/math?math=x_{1}=x_{1}%2B\left(\frac{\left(width_{new}-width_{old}\right)\cdot\left(x_{1}-x_{0}\right)}{2\cdot width_{old}}\right)"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{0}=y_{0}-\left(\frac{\left(height_{new}-height_{old}\right)\cdot\left(y_{1}-y_{0}\right)}{2\cdot height_{old}}\right)"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{1}=y_{1}%2B\left(\frac{\left(height_{new}-height_{old}\right)\cdot\left(y_{1}-y_{0}\right)}{2\cdot height_{old}}\right)"><br>
-    <figcaption>Resizing</figcaption>
+    <figcaption>Resizing</figcaption><br>
   </figure>
+  <br>
 </div>
 
 <p>
@@ -355,6 +368,7 @@ I encountered two problems. The first problem was that I wanted to render the Ma
   <figure>
     <img src="https://render.githubusercontent.com/render/math?math=height=\frac{2}{3}\cdot width"><br>
   </figure>
+  <br>
 </div>
 
 <p>
