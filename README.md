@@ -8,7 +8,9 @@ A WebGL Renderer for Fractal Equations.
 
 ## Abstract
 
+<p>
 This project implements a fractal equation renderer using WebGL. It will use the Mandelbrot Set as its base implementations to explore the requirements needed for a fractal equations renderer, but will leave the option open to integrate more fractal equations.
+</p>
 
 ## Theory
 
@@ -23,10 +25,10 @@ Fractals are all around us. Broccoli is a fractal, snowflakes are fractals, and 
 <p>
 For illustration purposes I will use a snowflake to clearly define the properties which makes it a fractal.
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img width="500" height="500" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/KochFlake.png"><br>
-    <figcaption style="font-style: italic;">The KochFlake defined by Helge von Koch</figcaption>
+    <figcaption>The KochFlake defined by Helge von Koch</figcaption><br>
   </figure>
   <br>
 </div>
@@ -39,27 +41,27 @@ What you see here is the KochFlake, defined by Helge von Koch as the Fractal rep
 <p>
 The KochFlake is easy in theory, but hard to implement since you have to add three sides for each side, and calculate where to add the new vertices too. A easier fractal to render would be the Mandelbrot Set.
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img width="500" height="375" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/mandelbrot.jpg"><br>
-    <figcaption style="font-style: italic;">The Mandelbrot Set</figcaption>
+    <figcaption>The Mandelbrot Set</figcaption><br>
   </figure>
   <br>
 </div>
 <p>
 Fig.2 reprsents the Mandelbrot Set, with the area in black representing the points in the Complex Plane which are converging, and the points with color are diverging. The different color values are representing the rate of divergence. The Mandelbrot Set is very easy to implement since its equation is a simple recursion function.
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=f_{c}\left(z\right)=z^{2}%2Bc"><br>
-    <figcaption style="font-style: italic;">The Fractal equation for the Mandelbrot Set</figcaption><br>
+    <figcaption>The Fractal equation for the Mandelbrot Set</figcaption><br>
   </figure>
   <br>
 </div>
 <p>
 This equation is used to render the Mandelbrot Set by iterating through all the Complex Numbers in the Complex Plane and determining which Complex Number <img src="https://render.githubusercontent.com/render/math?math=c"> is converging and which is diverging slowly by reapplying the equation by itself start with <img src="https://render.githubusercontent.com/render/math?math=z=0">, while we keep track of the iteration count in the variable <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}">.
 </p>
-<div align="center">
+<br><div align="center">
     <p>
       <img src="https://render.githubusercontent.com/render/math?math=z=0"><br>
       <img src="https://render.githubusercontent.com/render/math?math=z_{n}=(z_{n-1})^{2}%2Bc"><br>
@@ -91,10 +93,11 @@ Allowing for User Interactions, I would need to take advantage of the GPU, there
 The first step was to decide how to render the Complex Plane onto Pixel Space. In a broader perspective, the Mandelbrot Set always takes in the whole screen since rendering includes the divergent and convergent area, so it is one big object. Therefore I decided to use 4 vertices for each corner of the Pixel Space to create one big rectangle which we draw the Mandelbrot Set on.<br>
 </p>
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img width="500" height="333" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/coordinate1.png"><br>
-    <figcaption style="font-style: italic;">The whole Pixel Space as one rectangle</figcaption>
+    <figcaption>The whole Pixel Space as one rectangle</figcaption><br>
   </figure>
   <br>
 </div>
@@ -112,10 +115,10 @@ Convenient, the Complex Space is 2-dimensional as our Pixel Space is, therefore 
 <p>
 Next, we observe that the Complex Space is infinite, but the Pixel Space is finite, therefore we have to bound the Complex Space, by four Complex Numbers. We use the four Complex Numbers as the vertices of the rectangle, and interpolate in between them using the pixel position and the Pixel Space's width and height.
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img width="500" height="333" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/coordinate3.png"><br>
-    <figcaption style="font-style: italic;">Setup for Pixel Space to Complex Space conversion</figcaption>
+    <figcaption>Setup for Pixel Space to Complex Space conversion</figcaption><br>
   </figure>
   <br>
 </div>
@@ -123,10 +126,10 @@ Next, we observe that the Complex Space is infinite, but the Pixel Space is fini
 <p>
 Now, we just have to create a bijection between the Pixel Space and Complex Space using the following equation:
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=c=x_{0}%2Bx\cdot\frac{\left(x_{1}-x_{0}\right)}{width}%2Bi\cdot\left(y_{0}%2By\cdot\frac{\left(y_{1}-y_{0}\right)}{height}\right)"><br>
-    <figcaption style="font-style: italic;">This equation maps every pixel to a unique Complex Number</figcaption><br>
+    <figcaption>This equation maps every pixel to a unique Complex Number</figcaption><br>
   </figure>
   <br>
 </div>
@@ -140,25 +143,26 @@ Now we can iterate through the whole Pixel Space and associate each Pixel with a
 The iteration of the Mandelbrot Set Equation is very simple. We need to set the <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> to an large number, since we try to simulate the behaviour for <img src="https://render.githubusercontent.com/render/math?math=z_{n\rightarrow\infty}=(z_{n-1})^{2}%2Bc">. Next we need to set a threshold to determine if a number is diverging, for the Mandelbrot Set the threshold is <img src="https://render.githubusercontent.com/render/math?math=4"> with <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\le\ 4">. Additionaly, we need to implement squaring a Complex Number, therefore we need to implement multiplication for Complex Numbers which is trivial using 2-dimensional vectors.
 </p><br>
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=(a%2Bbi)\cdot(c%2Bdi)=\left(ac-bd\right)%2B\left(ad%2Bbc\right)i"><br>
-    <figcaption style="font-style: italic;">Multiplication for Complex Numbers</figcaption><br>
+    <figcaption>Multiplication for Complex Numbers</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=\left(a%2Bbi\right)^{2}=\left(a^{2}-b^{2}\right)%2B 2ab{i}"><br>
-    <figcaption style="font-style: italic;">Squaring a Complex Numbers.</figcaption><br>
+    <figcaption>Squaring a Complex Numbers.</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|=|a%2Bbi|=\sqrt{\left(a^{2}\right)%2B\left(b^{2}\right)}"><br>
-    <figcaption style="font-style: italic;">The magnitude of a Complex Number</figcaption><br>
+    <figcaption>The magnitude of a Complex Number</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\le\ 4\ or\ m_{iterations}=MAX_{iterations}"><br>
-    <figcaption style="font-style: italic;">The conditions for the iteration to break</figcaption><br>
+    <figcaption>The conditions for the iteration to break</figcaption><br>
   </figure>
   <br>
 </div>
@@ -171,20 +175,20 @@ The iteration of the Mandelbrot Set Equation is very simple. We need to set the 
 <p>
 We can use <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> for determining the color of the pixel, since pixel and complex numbers are forming a bijection in our framework.
 </p><br>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ \ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0"><br>
-    <figcaption style="font-style: italic;">Black & White</figcaption><br>
+    <figcaption>Black & White</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ 1-\frac{m_{iterations}}{MAX_{iterations}}"><br>
-    <figcaption style="font-style: italic;">Grey</figcaption><br>
+    <figcaption>Grey</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=color\ =\ hsv\left(\frac{m_{iterations}}{MAX_{iterations}},\ 1,\ m_{iterations}<MAX_{iterations}\ ?\ 1\ :\ 0\right)"><br>
-    <figcaption style="font-style: italic;">HSV Color</figcaption><br>
+    <figcaption>HSV Color</figcaption><br>
   </figure>
   <br>
 </div>
@@ -199,9 +203,10 @@ The implementation involves three variations, Black & White, Grey, and HSV Color
 At this point, the framework is almost complete, we only need to determine the variables for the most pleasant visualization. We could pick boundaries in the region <img src="https://render.githubusercontent.com/render/math?math={a \in\left[-1000,\ -900\right]}, {b \in\left[-1000,\ -900\right]}"> but we would see only divergent Complex Numbers, therefore we need to find good values for the boundaries, width, and height. Through some research in the internet, I found the best values for display the Mandelbrot Set are:
 </p>
 
-<div align="center">
-  <img src="https://render.githubusercontent.com/render/math?math={a \in\left[-2,\ 1\right]}, {b \in\left[-1,\ 1\right]}"><br>
-  <img src="https://render.githubusercontent.com/render/math?math=\frac{width}{height}=\frac{3}{2}">
+<br><div align="center">
+<img src="https://render.githubusercontent.com/render/math?math={a \in\left[-2,\ 1\right]}, {b \in\left[-1,\ 1\right]}"><br>
+<img src="https://render.githubusercontent.com/render/math?math=\frac{width}{height}=\frac{3}{2}">
+
 </div>
 <br>
 
@@ -211,31 +216,33 @@ With this we are able to render the Mandelbrot Set
 
 #### First Results
 
-<div align="center">
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png"><br>
-      <figcaption style="font-style: italic;">The Mandelbrot Set in Black & White with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
-      <br>
-    </figure>
-    <br>
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png"><br>
-      <figcaption style="font-style: italic;">The Mandelbrot Set in Grey Scales with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
-      <br>
-    </figure>
-    <br>
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png"><br>
-      <figcaption style="font-style: italic;">The Mandelbrot Set in Color with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
-      <br>
-    </figure>
-    <br>
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000.png"><br>
-      <figcaption style="font-style: italic;">The Mandelbrot Set in Color with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></figcaption>
-      <br>
-    </figure>
-    <br>
+<br><div align="center">
+
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/BlackWhite.png"><br>
+<figcaption>The Mandelbrot Set in Black & White with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+<br>
+</figure>
+<br>
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Grey.png"><br>
+<figcaption>The Mandelbrot Set in Grey Scales with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+<br>
+</figure>
+<br>
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Color.png"><br>
+<figcaption>The Mandelbrot Set in Color with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+<br>
+</figure>
+<br>
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000.png"><br>
+<figcaption>The Mandelbrot Set in Color with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></figcaption><br>
+<br>
+</figure>
+<br>
+
 </div>
 
 ### Optimizations
@@ -252,42 +259,45 @@ Looking at the Mangelbrot Set in color, we can observe that the colors are not s
 
 #### Equations
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=x^{2}+y^{2}>2^{8}"><br>
-    <figcaption style="font-style: italic;">New Divergence Criterium</figcaption><br>
+    <figcaption>New Divergence Criterium</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=\phi\left(z\right)=\lim_{n\to\infty}\frac{\log\left|z\right|}{P^{n}},\ P:\ f\left(z\right)=z^{p}+c">
-   <figcaption style="font-style: italic;">Potentional Function</figcaption><br> 
+   <figcaption>Potentional Function</figcaption><br> 
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=m_{last}\ge MAX_{iterations}"><br>
-    <figcaption style="font-style: italic;">Condition for normalizing</figcaption><br>
+    <figcaption>Condition for normalizing</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}=m_{last}%2B1.0-\left(\frac{\log\left(\frac{\log\left(a^{2}%2Bb^{2}\right)}{2}\right)}{\log\left(2\right)^{2}}\right)"><br>
-    <figcaption style="font-style: italic;">Normalized <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"></figcaption><br>
+    <figcaption>Normalized <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"></figcaption><br>
   </figure>
   <br>
 </div>
 
 #### Result
 
-<div align="center">
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/smooth.png"><br>
-      <figcaption style="font-style: italic;">The Mandelbrot Set in Color with smooth transitions and <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
-    </figure>
-    <br>
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Smooth.png"><br>
-      <figcaption style="font-style: italic;">The Mandelbrot Set in Color with smooth transitions <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></figcaption><br>
-    </figure>
-    <br>
+<br><div align="center">
+
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/smooth.png"><br>
+<figcaption>The Mandelbrot Set in Color with smooth transitions and <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+</figure>
+<br>
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Smooth.png"><br>
+<figcaption>The Mandelbrot Set in Color with smooth transitions <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></figcaption><br>
+</figure>
+<br>
+
 </div>
 
 <p>
@@ -300,19 +310,21 @@ The last optimization we can do is interpolating the colors for the current <img
 
 #### Result
 
-<div align="center">
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/interpolated.png"><br>
-      <figcaption style="font-style: italic;">Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
-      <br>
-    </figure>
-    <br>
-    <figure>
-      <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Interpolated.png"><br>
-      <figcaption style="font-style: italic;">Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption>
-    <br>
-    </figure>
-    <br>
+<br><div align="center">
+
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/interpolated.png"><br>
+<figcaption>Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+<br>
+</figure>
+<br>
+<figure style="font-style: italic;">
+<img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Interpolated.png"><br>
+<figcaption>Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></figcaption><br>
+<br>
+</figure>
+<br>
+
 </div>
 
 ### Interactions
@@ -322,29 +334,30 @@ Since we rendered the Mandelbrot Set using our GPU, we should try implementing s
 They are all straightforward using Javascript since we have mouse events which we can listen to and then apply the action we want by computing the new boundaries. I will not go in detail of how I implemented those functions, but I give the mathematical equations to compute the new boundaries.
 </p>
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=x_{0} = x_{0}%2B\frac{x}{width}\cdot\left(x_{1}-x_{0}\right)\cdot0.05_{zoomfactor}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=x_{1} = x_{0}-\left(1-\frac{x}{width}\right)\cdot\left(x_{1}-x_{0}\right)\cdot0.05_{zoomfactor}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{0} = y_{0}%2B\left(1-\frac{y}{height}\right)\cdot\left(y_{1}-y_{0}\right)\cdot0.05_{zoomfactor}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{1} = y_{1}-\frac{y}{height}\cdot\left(y_{1}-y_{0}\right)\cdot0.05_{zoomfactor}"><br>
-    <figcaption style="font-style: italic;">Zoom</figcaption><br>
+    <figcaption>Zoom</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=x_{0}=x_{0}%2B\frac{\left(x_{current}-x_{previous}\right)\left(x_{1}-x_{0}\right)}{width}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=x_{1}=x_{1}%2B\frac{\left(x_{current}-x_{previous}\right)\left(x_{1}-x_{0}\right)}{width}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{0}=y_{0}-\frac{\left(y_{current}-y_{previous}\right)\left(y_{1}-y_{0}\right)}{height}"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{1}=y_{1}-\frac{\left(y_{current}-y_{previous}\right)\left(y_{1}-y_{0}\right)}{height}"><br>
-    <figcaption style="font-style: italic;">Dragging</figcaption><br>
+    <figcaption>Dragging</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=x_{0}=x_{0}-\left(\frac{\left(width_{new}-width_{old}\right)\cdot\left(x_{1}-x_{0}\right)}{2\cdot width_{old}}\right)"><br>
     <img src="https://render.githubusercontent.com/render/math?math=x_{1}=x_{1}%2B\left(\frac{\left(width_{new}-width_{old}\right)\cdot\left(x_{1}-x_{0}\right)}{2\cdot width_{old}}\right)"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{0}=y_{0}-\left(\frac{\left(height_{new}-height_{old}\right)\cdot\left(y_{1}-y_{0}\right)}{2\cdot height_{old}}\right)"><br>
     <img src="https://render.githubusercontent.com/render/math?math=y_{1}=y_{1}%2B\left(\frac{\left(height_{new}-height_{old}\right)\cdot\left(y_{1}-y_{0}\right)}{2\cdot height_{old}}\right)"><br>
-    <figcaption style="font-style: italic;">Resizing</figcaption><br>
+    <figcaption>Resizing</figcaption><br>
   </figure>
   <br>
 </div>
@@ -353,10 +366,10 @@ They are all straightforward using Javascript since we have mouse events which w
 Now we can interact with the Mandelbrot Set and render even more interesting parts of it.
 </p>
 <br>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/zoomed.png"><br>
-    <figcaption style="font-style: italic;">The Mandelbrot Set zoomed in Grey Scale</figcaption>
+    <figcaption>The Mandelbrot Set zoomed in Grey Scale</figcaption><br>
   </figure>
   <br>
 </div>
@@ -378,8 +391,8 @@ The animations are very simple in nature. We set <img src="https://render.github
 <p>
 I encountered two problems. The first problem was that I wanted to render the Mandelbrot Set on the whole Screen, therefore using instead of using predefined I want to use dynamic values. The problem is not finding the display width and height, it is that the aspect ratio needs to be <img src="https://render.githubusercontent.com/render/math?math=\frac{width}{height}=\frac{3}{2}">, but what if a display does not have those aspect ratio? Then the Mandelbrot Set will looked skewed. To solve the problem we need to define the height based on the ratio and the width.
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=height=\frac{2}{3}\cdot width"><br>
   </figure>
   <br>
@@ -388,8 +401,8 @@ I encountered two problems. The first problem was that I wanted to render the Ma
 <p>
 Unfortunately, there are cases in which the new height is bigger than the device height, for that case we need to define the width based on the height and aspect ratio.
 </p>
-<div align="center">
-  <figure>
+<br><div align="center">
+  <figure style="font-style: italic;">
     <img src="https://render.githubusercontent.com/render/math?math=width=\frac{3}{2}\cdot height"><br>
   </figure>
 </div>
@@ -400,10 +413,11 @@ Unfortunately, there are cases in which the new height is bigger than the device
 If we have a high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}">, and the Complex Number is diverging, but at a high <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">, then the color will be not distinguishable to its surrounding area, which results into aliasing. The solution to that is creating a histogram and assign colors based on the distribution of <img src="https://render.githubusercontent.com/render/math?math=m_{iteration}">. Unfortunately, WebGL does not allow for dynamic array, therefore setting an array based on the <img src="https://render.githubusercontent.com/render/math?math=width*height"> will not be technical possible which ultimately showed me the limitation of WebGL.
 </p>
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/limitation.png"><br>
-    <figcaption style="font-style: italic;"><img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=8^{2}, zoomed"></figcaption><br>
+    <figcaption><img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=8^{2}, zoomed"></figcaption><br>
   </figure>
   <br>
 </div>
@@ -419,22 +433,23 @@ But the most important lesson I learned was finding out about the limitation of 
 
 ### Images
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration.png"><br>
-    <figcaption style="font-style: italic;"><img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}"></figcaption><br>
+    <figcaption><img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}"></figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/high_iteration_zoom.png"><br>
-    <figcaption style="font-style: italic;">
+    <figcaption>
       <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}, zoomed"> 
     </figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/resultGrey.png"><br>
-    <figcaption style="font-style: italic;">
+    <figcaption>
       <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}=1000, sampleRate=4^{2}, zoomed"> 
     </figcaption><br>
   </figure>
@@ -443,15 +458,16 @@ But the most important lesson I learned was finding out about the limitation of 
 
 ### Animations
 
-<div align="center">
-  <figure>
+<br><div align="center">
+
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/blob/master/docs/videos/gifs/IterationAnimation.gif?raw=true"><br>
-    <figcaption style="font-style: italic;">Animation of incrementing <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> by 1 for each frame</figcaption><br>
+    <figcaption>Animation of incrementing <img src="https://render.githubusercontent.com/render/math?math=MAX_{iteration}"> by 1 for each frame</figcaption><br>
   </figure>
   <br>
-  <figure>
+  <figure style="font-style: italic;">
     <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/blob/master/docs/videos/gifs/ThresholdAnimation.gif?raw=true"><br>
-    <figcaption style="font-style: italic;">Animation of incrementing <img src="https://render.githubusercontent.com/render/math?math=MAX_{threshold}"> by 0.01 for each frame</figcaption><br>
+    <figcaption>Animation of incrementing <img src="https://render.githubusercontent.com/render/math?math=MAX_{threshold}"> by 0.01 for each frame</figcaption><br>
   </figure>
   <br>
 </div>
