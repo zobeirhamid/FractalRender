@@ -169,7 +169,7 @@ The iteration of the Mandelbrot Set Equation is very simple. We need to set the 
   </figure>
   <br>
   <figure>
-    <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\le\ 4\ or\ m_{iterations}=MAX_{iterations}"><br>
+    <img src="https://render.githubusercontent.com/render/math?math=\left|c\right|\ge4\ or\ m_{iterations}\ge\ MAX_{iterations}"><br>
     <figcaption><em>The conditions for the iteration to break</em></figcaption><br>
   </figure>
   <br>
