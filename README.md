@@ -334,7 +334,7 @@ The last optimization we can do is interpolating the colors for the current <img
 <br>
 <figure>
 <img width="500" height="260" src="https://github.com/zobeirhamid/FractalRender/raw/master/docs/images/Iteration1000Interpolated.png"><br>
-<figcaption><em>Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=100"></em></figcaption><br>
+<figcaption><em>Interpolated version of the Mandelbrot Set with <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000"></em></figcaption><br>
 <br>
 </figure>
 <br>
