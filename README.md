@@ -338,8 +338,13 @@ The last optimization we can do is interpolating the colors for the current <img
 <br>
 </figure>
 <br>
-
 </div>
+
+#### Super-Sampling
+
+<p>
+If we have a high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, then the size of a pixel will create noise and to minimize that that noise we can introduce Super Sampling for every pixel. Since GLSL does not support randomness natively, I decided to use a grid approach instead of random approach. Therefore I divide a pixel into an <img src="https://render.githubusercontent.com/render/math?math=nxn"> grid with <img src="https://render.githubusercontent.com/render/math?math=n"> being the sample rate. With that we are able to get the midpoint for each square in the grid, find the complex number for that specific point, iterate the Mandelbrot Set Equation on it, and finally take the average of the sum of <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> for all the midpoints in the grid. We use the average <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> to color the pixel with that we are able to minimize the noise when zooming into the Mandelbrot Set which requires a high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but to create that scenario we first need to implement interactions.
+</p>
 
 ### Interactions
 
