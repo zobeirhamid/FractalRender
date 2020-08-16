@@ -264,11 +264,11 @@ The described algorithm above works, but it is very inefficient since we are usi
 
 First, we observe that calculating the magnitude of a Complex Numbers involves calculating the real numbers <img src="https://render.githubusercontent.com/render/math?math=a^{2}"> and <img src="https://render.githubusercontent.com/render/math?math=b^{2}">. For calculating the Mandelbrot Set Equation we have to square a Complex Number which also involves <img src="https://render.githubusercontent.com/render/math?math=a^{2}"> and <img src="https://render.githubusercontent.com/render/math?math=b^{2}">, therefore saving those two real numbers in separate variables, we can save 2 multiplications.
 
-### Continous (Smooth) Coloring
+#### Continous (Smooth) Coloring
 
 Looking at the Mangelbrot Set in color, we can observe that the colors are not smoothly transitioning, since the different color regions are identifiable. This is a form of aliasing since the colors should be distributed continously over the space, since the Complex Space is continous, but we are working on a discrete space which is bounded by a width and height, therefore we have to work around that. The main idea to fix the aliasing is by normalizing the iteration count, therefore we have a more even distribution, so we artificially create a continous transition between colors. To implement the artificial continous transition we need to change the old breaking condition since we wanna get bigger values of <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> for divergent areas, therefore it is necessary to enforce a bigger divergence criterium. For normalizing the <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}">, we can use a potential function.
 
-#### Equations
+##### Equations
 
 <br>
 <div align="center">
@@ -295,7 +295,7 @@ Looking at the Mangelbrot Set in color, we can observe that the colors are not s
   <br>
 </div>
 
-#### Result
+##### Result
 
 <br>
 <div align="center">
@@ -317,11 +317,11 @@ Looking at the Mangelbrot Set in color, we can observe that the colors are not s
 This method is really good for small <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but don't really change anything for high <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}"> since the the pixel depth is more dense which means the neighbourhood pixels cannot have as different divergence rates since more iterations are allowed.
 </p>
 
-### Linear Interpolation
+#### Linear Interpolation
 
 The last optimization we can do is interpolating the colors for the current <img src="https://render.githubusercontent.com/render/math?math=m_{iterations}"> and <img src="https://render.githubusercontent.com/render/math?math=m_{iterations} + 1">. This is combination is not desirable for low <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}">, but gives more detail if <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}"> is very big like <img src="https://render.githubusercontent.com/render/math?math=MAX_{iterations}=1000">.
 
-#### Result
+##### Result
 
 <br>
 <div align="center">
